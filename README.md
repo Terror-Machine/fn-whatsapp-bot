@@ -1,4 +1,5 @@
 using OPEN-WA/WA-AUTOMATE library
+
 how to use?
 1. apt update -y
 2. apt upgrade -y
@@ -10,3 +11,4 @@ how to use?
 6. cd fnbots
 7. npm i
 8. npm start
+

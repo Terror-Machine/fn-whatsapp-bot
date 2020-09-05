@@ -12,7 +12,7 @@ const confObj = {
     killProcessOnBrowserClose: true,
     qrRefreshS: 20,
     qrTimeout: 0,
-    safeMode: true
+    safeMode: true,
     useChrome: true
 }
 const runSession = async() => {

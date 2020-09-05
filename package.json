@@ -1,0 +1,22 @@
+{
+  "name": "fnbots-wa",
+  "version": "1.0.1",
+  "description": "Whatsapp Bot",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "author": "Arfine Meka",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fnbots-wa/imageToSticker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fnbots-wa/fnbots/issues"
+  },
+  "homepage": "https://github.com/fnbots-wa/fnbots",
+  "license": "MIT",
+  "dependencies": {
+    "@open-wa/wa-automate": "^2.1.2"
+  }
+}

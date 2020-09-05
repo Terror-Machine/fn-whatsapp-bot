@@ -22,7 +22,9 @@ const runSession = async() => {
                 if (state === 'CONFLICT') client.forceRefocus()
             })
             client.onMessage((message) => {
-                msgHandler(client, message)
+                if (message.body === 'test') {
+                  client.sendText(message.from, 'tist');
+                }
             })
         })
         .catch((err) => {

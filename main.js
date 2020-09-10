@@ -1,34 +1,44 @@
 const { create, decryptMedia } = require('@open-wa/wa-automate')
 const { NotificationLanguage } = require('@open-wa/wa-automate/dist/api/model')
 const confObj = {
-    authTimeout: 0,
-    autoRefresh: true,
-    blockCrashLogs: true,
-    cacheEnabled: false,
-    disableSpins: true,
-    executablePath:'/usr/bin/google-chrome-stable',
-    hostNotificationLang: NotificationLanguage.IDID,
-    headless: true,
-    killProcessOnBrowserClose: true,
-    qrRefreshS: 20,
-    qrTimeout: 0,
-    safeMode: true,
-    useChrome: true
+  executablePath: "/usr/bin/google-chrome-stable",
+  headless: true,
+  autoRefresh: true,
+  qrRefreshS: 30,
+  qrTimeout: 30,
+  authTimeout: 30,
+  cacheEnabled: false,
+  blockCrashLogs: true,
+  hostNotificationLang: NotificationLanguage.IDID,
+  args: [
+    '--enable-features=NetworkService',
+    '--no-sandbox',
+    '--disable-setuid-sandbox',
+    '--disable-dev-shm-usage',
+    '--disable-web-security',
+    '--disable-features=IsolateOrigins,site-per-process',
+    '--shm-size=3gb',
+  ],
+  sessionId: 'fnbots'
 }
 const runSession = async() => {
-    create('fnbots', confObj)
-        .then((client) => {
-            client.onStateChanged((state) => {
-                if (state === 'CONFLICT') client.forceRefocus()
-            })
-            client.onMessage((message) => {
-                if (message.body === 'test') {
-                  client.sendText(message.from, 'tist');
-                }
-            })
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+  create(confObj, {
+    logConsole: true,
+    logConsoleErrors: true,
+    ignoreHTTPSErrors: true,
+    trace: true
+  })
+    .then((client) => {
+      client.onStateChanged((state) => {
+        if (state === 'CONFLICT') client.forceRefocus()
+      })
+      client.onMessage((message) => {
+        if (message.body === 'test') {
+          client.sendText(message.from, 'tist');
+        }
+      })
+    })
+    .catch((err) => new Error(err))
+    })
 }
 runSession()

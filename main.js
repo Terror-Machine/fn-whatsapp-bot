@@ -5,8 +5,8 @@ const confObj = {
   headless: true,
   autoRefresh: true,
   qrRefreshS: 30,
-  qrTimeout: 30,
-  authTimeout: 30,
+  qrTimeout: 0,
+  authTimeout: 0,
   cacheEnabled: false,
   blockCrashLogs: true,
   hostNotificationLang: NotificationLanguage.IDID,
@@ -39,6 +39,5 @@ const runSession = async() => {
       })
     })
     .catch((err) => new Error(err))
-    })
 }
 runSession()

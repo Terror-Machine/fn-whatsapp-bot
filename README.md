@@ -1,6 +1,7 @@
-using OPEN-WA/WA-AUTOMATE library
+using https://github.com/open-wa/wa-automate-nodejs library.
 
 how to use?
+```
 1. apt update -y
 2. apt upgrade -y
 3. apt install nodejs
@@ -11,4 +12,4 @@ how to use?
 6. cd fnbots
 7. npm i
 8. npm start
-
+```

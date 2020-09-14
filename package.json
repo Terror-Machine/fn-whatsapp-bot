@@ -17,6 +17,8 @@
   "homepage": "https://github.com/fnbots-wa/fnbots",
   "license": "MIT",
   "dependencies": {
-    "@open-wa/wa-automate": "^2.0.12"
+    "@open-wa/wa-automate": "^2.0.22",
+    "fs-extra": "^9.0.1",
+    
   }
 }

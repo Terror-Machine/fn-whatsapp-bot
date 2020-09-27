@@ -53,6 +53,7 @@ async function bot(fn, message) {
     body
   } = message
   body = (type == 'chat') ? body : ((type && caption)) ? caption : ''
+  const ua = "WhatsApp/2.2029.4 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"
   let txt = body.toLowerCase()
   if (txt == "halo") {
     fn.sendText(from, 'loha')
@@ -71,27 +72,24 @@ async function bot(fn, message) {
   } else if (txt == "resend") { // resend your image/video/audio/file back
     if (mimetype) {
       const filename = `${t}.${mime.extension(mimetype)}`
-      const mediaData = await decryptMedia(message);
+      const mediaData = await decryptMedia(message, ua);
       const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
-      await fn.sendFile(from, imageBase64, filename, `You just sent me this ${type}`)
-        .then(() => console.log(`success resend ${mimetype}`))
+      await fn.sendFile(from, imageBase64, filename, `You just sent me this ${type}`).then(() => console.log(`success resend ${mimetype}`))
     }
   } else if (txt == "sticker") { // create sticker from your image
-    if (isMedia && mimetype === 'image') {
-      const mediaData = await decryptMedia(message);
+    if (mimetype) {
+      const mediaData = await decryptMedia(message, ua);
       const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
-      await fn.sendImageAsSticker(from, imageBase64)
-        .then(() => console.log(`success send sticker`))
+      await fn.sendImageAsSticker(from, imageBase64).then(() => console.log(`success send sticker`))
     }
   } else if (txt == "tagme") {
     fn.sendTextWithMentions(from, `why @${sender.id} ?`)
   } else if (txt == "replyme") {
     fn.reply(from, `why?`, id)
   } else if (txt == "shutdown") {
-    fn.sendText(from, 'please check your screen')
-    fn.reply(from, 'try to logging off', id)
-    fn.sendTextWithMentions(from, `success @${sender.id} !`)
-    fn.kill()
+    await fn.sendText(from, 'please check your screen')
+    await fn.reply(from, 'try to logging off', id)
+    await fn.sendTextWithMentions(from, `success @${sender.id} !`).then(async() => await fn.kill())
   }
 }
 

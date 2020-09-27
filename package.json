@@ -9,15 +9,15 @@
   "author": "Arfine Meka",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fnbots-wa/imageToSticker.git"
+    "url": "https://github.com/Terror-Machine/fnbots.git"
   },
   "bugs": {
-    "url": "https://github.com/fnbots-wa/fnbots/issues"
+    "url": "https://github.com/Terror-Machine/fnbots/issues"
   },
-  "homepage": "https://github.com/fnbots-wa/fnbots",
+  "homepage": "https://github.com/Terror-Machine/fnbots",
   "license": "MIT",
   "dependencies": {
-    "@open-wa/wa-automate": "^2.0.22",
+    "@open-wa/wa-automate": "^2.0.25",
     "fs-extra": "^9.0.1"
   }
 }

@@ -27,6 +27,9 @@ npm i
 npm start
 
 ```
+## NOTE!
+This script is made for public bots, so use a second account to scan the qr and main account to command.
+
 ## as an example to be used as a reference:
 ## but please dont equate the bot templates, use your own ideas!!!
 - [FNBots](https://https://api.whatsapp.com/send?phone=6288239049722&text=.commands)

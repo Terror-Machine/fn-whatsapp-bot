@@ -2,7 +2,7 @@
 
 ## Hi everyone! 
 
-I trying to create script whatsapp bot using https://github.com/open-wa/wa-automate-nodejs library.
+I trying to create script whatsapp bot using [open-wa](https://github.com/open-wa/wa-automate-nodejs) library.
 
 ## Requirements:
 ```

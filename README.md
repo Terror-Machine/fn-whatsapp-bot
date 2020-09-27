@@ -1,4 +1,4 @@
-<h1 align="center">fnbots</h1>
+<h1 align="center">FNBots</h1>
 
 ## Hi everyone! 
 
@@ -27,8 +27,10 @@ npm i
 npm start
 
 ```
-## MyBot:
+## as an example to be used as a reference:
 - [FNBots](https://https://api.whatsapp.com/send?phone=6288239049722&text=.commands)
+
+## but please do not equate the bot templates, use your own ideas!!!
 
 ## Thanks to:
 - [open-wa](https://github.com/open-wa/wa-automate-nodejs)

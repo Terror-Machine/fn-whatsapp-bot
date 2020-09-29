@@ -19,6 +19,8 @@ curl -sL https://deb.nodesource.com/setup_12.x -o nodesource_setup.sh
 sudo bash nodesource_setup.sh
 sudo apt install nodejs
 sudo apt install git
+sudo apt install imagemagick
+sudo timedatectl set-timezone Asia/Jakarta
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo apt install ./google-chrome-stable_current_amd64.deb
 git clone https://github.com/fnbots-wa/fnbots

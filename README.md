@@ -4,6 +4,16 @@
 
 I trying to create script whatsapp bot using [open-wa](https://github.com/open-wa/wa-automate-nodejs) library.
 
+## Func? 
+```
+usable commands: 
+a. Sticker Maker
+b. Tag
+c. Reply
+d. Forward Media
+etc
+```
+
 ## Requirements:
 ```
 nodejs 12.xxx

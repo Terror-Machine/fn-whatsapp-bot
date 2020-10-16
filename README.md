@@ -67,8 +67,9 @@ This script is made for public bots, so use a second account to scan the qr and 
 sudo apt install golang
 ```
 
-#######################
+## ./bashrc
+```
 export GOROOT=/usr/lib/go
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
-
+```

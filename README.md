@@ -59,3 +59,16 @@ This script is made for public bots, so use a second account to scan the qr and 
 
 ## Thanks to:
 - [open-wa](https://github.com/open-wa/wa-automate-nodejs)
+
+
+
+## PATH TO GO!
+```
+sudo apt install golang
+```
+
+#######################
+export GOROOT=/usr/lib/go
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+

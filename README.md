@@ -29,8 +29,9 @@ sudo apt install unzip -y
 cd ~
 curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh
 sudo bash nodesource_setup.sh
+sudo apt-get install -y nodejs
+sudo apt-get install gcc g++ make -y
 sudo apt install python3-pip -y
-sudo apt install nodejs -y
 sudo apt install git -y
 sudo apt install ffmpeg -y
 sudo apt install imagemagick -y

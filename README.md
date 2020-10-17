@@ -33,6 +33,7 @@ sudo apt-get install -y nodejs
 sudo apt-get install gcc g++ make -y
 sudo apt install python3-pip -y
 sudo apt install git -y
+apt install python3-pafy -y
 sudo apt install ffmpeg -y
 sudo apt install imagemagick -y
 sudo apt install gifsicle -y

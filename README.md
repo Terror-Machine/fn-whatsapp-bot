@@ -30,6 +30,7 @@ sudo apt install unzip -y
 curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh
 sudo bash nodesource_setup.sh
 sudo apt-get install -y nodejs
+sudo apt install golang -y
 sudo apt-get install gcc g++ make -y
 sudo apt install python3-pip -y
 sudo apt install git -y
@@ -48,6 +49,7 @@ pip3 install pydub
 pip3 install nhentai
 pip3 install youtube-dl
 pip3 install img2pdf
+pip3 install pafy
 git clone https://github.com/Terror-Machine/fn-whatsapp-bot
 cd fn-whatsapp-bot
 pip3 install -r requirements.txt

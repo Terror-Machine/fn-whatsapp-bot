@@ -4,6 +4,9 @@
 
 I trying to create script whatsapp bot using [open-wa](https://github.com/open-wa/wa-automate-nodejs) library.
 
+## Group Whatsapp?
+[Here!](https://chat.whatsapp.com/BHGFVfkv9toKBgNgtoJffb)
+
 ## Func? 
 ```
 usable commands: 

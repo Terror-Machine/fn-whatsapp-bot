@@ -46,7 +46,7 @@
     "video-url-link": "git+https://github.com/YogaSakti/video-url-link.git",
     "youtube-mp3-downloader": "^0.7.3",
     "yt-search": "^2.3.3",
-    "ytdl-core": "^3.3.0"
+    "ytdl-core": "^4.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",

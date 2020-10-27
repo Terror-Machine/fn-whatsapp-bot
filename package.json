@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@justalk/pornhub-api": "^3.1.0",
-    "@open-wa/wa-automate": "^2.0.32",
+    "@open-wa/wa-automate": "^3.0.6",
     "brainly-scraper": "^1.0.2",
     "canvas": "^2.6.1",
     "dbot-js": "^1.0.2",

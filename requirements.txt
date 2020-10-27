@@ -60,7 +60,7 @@ keyring==18.0.1
 language-selector==0.1
 launchpadlib==1.10.13
 lazr.restfulclient==0.14.2
-lazr.uri==1.0.3
+lazr.uri==1.0.5
 livejson==1.9.1
 lxml==4.5.2
 Mako==1.1.3

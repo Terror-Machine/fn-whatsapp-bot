@@ -81,7 +81,7 @@ pigar==0.10.0
 pikepdf==1.19.3
 Pillow==7.2.0
 protobuf==3.13.0
-pyasn1==0.4.2
+pyasn1==0.4.8
 pyasn1-modules==0.2.1
 pycparser==2.20
 pydub==0.24.1

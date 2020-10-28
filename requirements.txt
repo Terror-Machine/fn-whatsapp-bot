@@ -8,7 +8,7 @@ bs4==0.0.1
 certifi==2020.6.20
 cffi==1.14.3
 chardet==3.0.4
-chromedriver-binary==86.0.4240.22.0
+chromedriver-binary==87.0.4280.20.0
 chromedriver-py==86.0.4240.22
 click==7.1.2
 cloud-init==20.3

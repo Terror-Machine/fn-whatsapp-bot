@@ -1,6 +1,6 @@
 alembic==1.4.3
 attrs==19.3.0
-Automat==0.8.0
+Automat==20.2.0
 beautifulsoup4==4.9.3
 bella==2.1.4
 blinker==1.4

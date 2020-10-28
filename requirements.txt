@@ -99,7 +99,7 @@ python-apt==2.0.0+ubuntu0.20.4.1
 python-axolotl==0.2.3
 python-axolotl-curve25519==0.4.1.post2
 python-dateutil==2.8.1
-python-debian===0.1.36ubuntu1
+python-debian===0.1.38
 python-editor==1.0.4
 python-magic==0.4.18
 python-youtube==0.6.4

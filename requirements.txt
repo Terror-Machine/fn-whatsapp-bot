@@ -12,7 +12,7 @@ chromedriver-binary==86.0.4240.22.0
 chromedriver-py==86.0.4240.22
 click==7.1.2
 cloud-init==20.3
-colorama==0.4.3
+colorama==0.4.4
 command-not-found==0.3
 configobj==5.0.6
 constantly==15.1.0

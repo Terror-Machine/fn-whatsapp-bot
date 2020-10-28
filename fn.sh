@@ -23,7 +23,7 @@ sudo timedatectl set-timezone Asia/Jakarta
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo apt-get install -y ./google-chrome-stable_current_amd64.deb
 git clone https://github.com/Terror-Machine/fn-whatsapp-bot
-cd fnbots
+cd fn-whatsapp-bot
 pip3 install ffmpeg
 pip3 install pydub
 pip3 install nhentai

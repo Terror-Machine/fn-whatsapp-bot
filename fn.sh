@@ -24,10 +24,8 @@ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo apt-get install -y ./google-chrome-stable_current_amd64.deb
 pip3 install ffmpeg
 pip3 install pydub
-pip3 install nhentai
 pip3 install youtube-dl
 pip3 install img2pdf
 pip3 install pafy
-pip3 install -r requirements.txt
 npm i
 npm start

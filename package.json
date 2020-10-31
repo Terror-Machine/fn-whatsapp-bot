@@ -7,7 +7,7 @@
   },
   "main": "p.js",
   "scripts": {
-    "start": "node p.js",
+    "start": "node main.js",
     "test": "node t.js"
   },
   "dependencies": {

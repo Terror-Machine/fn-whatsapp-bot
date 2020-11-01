@@ -7,7 +7,6 @@ sudo apt-get install -y unzip
 curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh
 sudo bash nodesource_setup.sh
 sudo apt-get install -y nodejs
-sudo apt-get install -y golang
 sudo apt-get install -y gcc g++ make
 sudo apt-get install -y python3-pip
 sudo apt-get install -y git
@@ -32,7 +31,9 @@ pip3 install pafy
 unzip nhentai.zip
 cd nhentai-master
 python3 setup.py install
+wget https://golang.org/dl/go1.15.3.linux-amd64.tar.gz && tar -C /usr/local -xzf go1.15.3.linux-amd64.tar.gz && export PATH=$PATH:/usr/local/go/bin
 cd ~
+go get github.com/Rhymen/go-whatsapp && go get github.com/Baozisoftware/qrcode-terminal-go && go get github.com/sizeofint/gif-to-webp && go get github.com/slayer/autorestart && go get && go get github.com/tidwall/gjson && go get github.com/tidwall/sjson
 cd fn-whatsapp-bot
 npm i
 npm start

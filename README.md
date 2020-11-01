@@ -9,7 +9,6 @@ I trying to create script whatsapp bot using [open-wa](https://github.com/open-w
 
 ## Func? 
 ```
-## FNBots ##
 Master Command
 
 1. addwhitelist
@@ -26,8 +25,69 @@ Master Command
 12. upcoms
 13. spam
 14. cmd
+15. resetin limit
+16. ubah
+17. addsticker
+18. delsticker
+19. addaudio
+20. delaudio
+21. clearall
+22. x
+23. nbc
+24. wbc
+25. listpremium
+26. addpremium
+27. delpremium
+28. resetpremium
+29. listowner
+30. addowner
+31. delowner
+32. speed
+33. sp
+34. banchat on
+35. banchat off
+36. stats
+37. runtime
+38. upname
+39. upstatus
+40. upsname
+41. uprname
+42. suggest
+43. chatbot
+44. set
+45. mygroup
+46. resetmute
+47. status
+48. leaveall
+49. changememberlimit
+50. changegrouplimit
+51. changepremiumlimit
+52. changelimit
+53. resetlimitall
+54. rprem
+55. listprem
+56. dprem
+57. rvip
+58. listvip
+59. dvip
+60. listblock
+61. unblockall
+62. listadmin
+63. listmute
+64. silent
+65. unsilent
+66. listblack
+67. delblack
+68. delmute
+69. listwhite
+70. whitelistadd
+71. whitelistdel
+72. resetwhitelist
+73. sgift
+74. meadmin
+75. climit
 
-Premium Command
+*Premium Command*
 
 1. image
 2. joox
@@ -62,7 +122,7 @@ Premium Command
 31. addimage
 32. delimage
 
-Manage Groups
+*Manage Groups*
 
 1. kick
 2. invite
@@ -105,52 +165,8 @@ Manage Groups
 39. ginfo
 40. infogroup
 41. welcome
-42. speed
-43. sp
-44. banchat on
-45. banchat off
-46. stats
-47. runtime
-48. upname
-49. upstatus
-50. upsname
-51. uprname
-52. suggest
-53. chatbot
-54. set
-55. mygroup
-56. resetmute
-57. status
-58. leaveall
-59. changememberlimit
-60. changegrouplimit
-61. changepremiumlimit
-62. changelimit
-63. resetlimitall
-64. rprem
-65. listprem
-66. dprem
-67. rvip
-68. listvip
-69. dvip
-70. listblock
-71. unblockall
-72. listadmin
-73. listmute
-74. silent
-75. unsilent
-76. listblack
-77. delblack
-78. delmute
-79. listwhite
-80. whitelistadd
-81. whitelistdel
-82. resetwhitelist
-83. sgift
-84. meadmin
-85. climit
 
-Media
+*Media*
 
 1. commands
 2. asupan
@@ -294,50 +310,6 @@ Media
 140. toaudio
 141. math
 142. admin
-143. speed
-144. sp
-145. banchat on
-146. banchat off
-147. stats
-148. runtime
-149. upname
-150. upstatus
-151. upsname
-152. uprname
-153. suggest
-154. chatbot
-155. set
-156. mygroup
-157. resetmute
-158. status
-159. leaveall
-160. changememberlimit
-161. changegrouplimit
-162. changepremiumlimit
-163. changelimit
-164. resetlimitall
-165. rprem
-166. listprem
-167. dprem
-168. rvip
-169. listvip
-170. dvip
-171. listblock
-172. unblockall
-173. listadmin
-174. listmute
-175. listblack
-176. delblack
-177. delmute
-178. listwhite
-179. whitelistadd
-180. whitelistdel
-181. resetwhitelist
-182. sgift
-183. meadmin
-184. climit
-185. silent
-186. unsilent
 
 Regards: PEKI - VH - FN
 ```

@@ -325,7 +325,7 @@ npm 6.xxx
 sudo apt-get install -y git
 git clone https://github.com/Terror-Machine/fn-whatsapp-bot
 cd fn-whatsapp-bot
-chmod +x fn.sh
+chmod u+x fn.sh
 ./fn.sh
 ```
 ## NOTE!

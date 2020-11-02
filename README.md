@@ -4,6 +4,14 @@
 
 I trying to create script whatsapp bot using [open-wa](https://github.com/open-wa/wa-automate-nodejs) library.
 
+## NEW FEATURE?
+
+![Screenshot_20201102-122314_WhatsApp](https://user-images.githubusercontent.com/70086013/97832883-826b2000-1d06-11eb-9b22-2e4a9741bbfb.png)
+![Screenshot_20201102-122323_WhatsApp](https://user-images.githubusercontent.com/70086013/97832899-9020a580-1d06-11eb-847f-fe777f41bf10.png)
+![Screenshot_20201102-122333_WhatsApp](https://user-images.githubusercontent.com/70086013/97832914-97e04a00-1d06-11eb-9796-3294a9ad1765.png)
+![Screenshot_20201102-122342_WhatsApp](https://user-images.githubusercontent.com/70086013/97832916-9c0c6780-1d06-11eb-9c4a-b527462718a7.png)
+![Screenshot_20201102-122352_WhatsApp](https://user-images.githubusercontent.com/70086013/97832919-9f075800-1d06-11eb-8dc7-c3e5508ddb9e.png)
+
 ## Group Whatsapp?
 [Here!](https://chat.whatsapp.com/BHGFVfkv9toKBgNgtoJffb)
 

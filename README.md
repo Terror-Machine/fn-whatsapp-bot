@@ -329,6 +329,7 @@ npm 6.xxx
 ```
 
 ## Installation Using Linux-Ubuntu:
+## IDK if you use RDP or other. because i never use
 ```
 sudo apt-get install -y git
 git clone https://github.com/Terror-Machine/fn-whatsapp-bot

@@ -28,6 +28,7 @@ pip3 install pydub
 pip3 install youtube-dl
 pip3 install img2pdf
 pip3 install pafy
+pip3 install apnggif
 unzip nhentai.zip
 cd nhentai-master
 python3 setup.py install

@@ -32,8 +32,8 @@ pip3 install apnggif
 unzip nhentai.zip
 cd nhentai-master
 python3 setup.py install
-cd /usr/local && wget https://golang.org/dl/go1.15.3.linux-amd64.tar.gz && tar -C /usr/local -xzf go1.15.3.linux-amd64.tar.gz && export PATH=$PATH:/usr/local/go/bin
-cd /usr/local/go && go get github.com/Rhymen/go-whatsapp && go get github.com/Baozisoftware/qrcode-terminal-go && go get github.com/sizeofint/gif-to-webp && go get github.com/slayer/autorestart && go get github.com/tidwall/gjson && go get github.com/tidwall/sjson && go get golang.org/x/image/bmp && go get golang.org/x/image/tiff && go get github.com/chai2010/webp
+cd /usr/local && wget https://golang.org/dl/go1.15.3.linux-amd64.tar.gz && tar -C /usr/local -xzf go1.15.3.linux-amd64.tar.gz && export GOROOT=/usr/local/go && export GOPATH=$HOME/go && export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+cd ~/go && go get github.com/Rhymen/go-whatsapp && go get github.com/Baozisoftware/qrcode-terminal-go && go get github.com/sizeofint/gif-to-webp && go get github.com/slayer/autorestart && go get github.com/tidwall/gjson && go get github.com/tidwall/sjson && go get golang.org/x/image/bmp && go get golang.org/x/image/tiff && go get github.com/chai2010/webp
 cd ~/fn-whatsapp-bot
 npm i
 npm start

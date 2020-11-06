@@ -97,17 +97,30 @@ const fnOpt = {
   sessionId: 'fnbots',
   useChrome: true,
   headless: true,
-  autoRefresh: true,
-  qrRefreshS: 60,
+  qrRefreshS: 17,
   qrTimeout: 0,
   authTimeout: 0,
+  autoRefresh: true,
   cacheEnabled: false,
   blockCrashLogs: true,
   restartOnCrash: fnBots,
   throwErrorOnTosBlock: false,
   killProcessOnBrowserClose: true,
+  deleteSessionDataOnLogout: false,
+  skipBrokenMethodsCheck: true,
+  skipUpdateCheck: true,
   disableSpins: false,
+  useStealth: true,
+  logConsole: true,
+  logConsoleErrors: true,
   trace: true
+    /*,
+      corsFix: true,
+      blockAssets: true,
+      ProxyServerCredentials: {
+        protocol: 'SOCKS5',
+        address: '104.225.142.233:1080',
+      }*/
 }
 create(fnOpt)
   .then((fn) => fnBots(fn))

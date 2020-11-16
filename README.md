@@ -19,8 +19,7 @@ npm 6.xxx
 sudo apt-get install -y git
 git clone https://github.com/Terror-Machine/fn-whatsapp-bot
 cd fn-whatsapp-bot
-chmod u+x fn.sh
-./fn.sh
+bash fn.sh
 ```
 ## NOTE!
 This script is made for public bots, so use a second account to scan the qr and main account to command.

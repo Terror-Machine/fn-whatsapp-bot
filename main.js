@@ -31,10 +31,22 @@ const fnBots = (fn = new Client()) => {
   });
   fn.onMessage(async(message) => {
     try {
-      await bot(fn, message)
-    } catch (e) {
-      console.log(e.message)
+      await bot(fn, message, false)
+    } catch (error) {
+      console.log(error.message)
     }
+    fn.getAmountOfLoadedMessages()
+      .then((x) => {
+        if (x >= 4000) {
+          fn.sendText('xxx@c.us', `Loaded message reach ${x}, cutting message cache...`)
+          fn.cutMsgCache()
+          fn.cutMsgCache()
+          fn.cutMsgCache()
+          fn.cutMsgCache()
+          fn.cutMsgCache()
+          fn.cutMsgCache()
+        }
+      })
   });
 }
 

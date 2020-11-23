@@ -3,6 +3,7 @@ sudo apt-get -y update
 sudo apt-get -y upgrade
 sudo apt-get install -y curl
 sudo apt-get install -y zip
+sudo apt-get install -y webp
 sudo apt-get install -y unzip
 curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh
 sudo bash nodesource_setup.sh

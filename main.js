@@ -152,7 +152,7 @@ const modifWebp = (id, buffers) => new Promise((resolve) => {
   } = require('child_process')
   ffmpeg(stream)
   .inputFormat('mp4')
-  .addOutputOptions("-vcodec", "libwebp", "-vf", "scale='min(320,iw)':min'(150,ih)':force_original_aspect_ratio=decrease, fps=15, pad=150:150:-1:-1:color=white@0.0", '-lossless', '1', "-loop", "1", "-preset", "default", "-an", "-vsync", "0", "-s", "150:150")
+  .addOutputOptions("-vcodec", "libwebp", "-vf", "scale='min(150,iw)':min'(150,ih)':force_original_aspect_ratio=decrease, fps=15, pad=150:150:-1:-1:color=white@0.0", '-lossless', '1', "-loop", "1", "-preset", "default", "-an", "-vsync", "0", "-s", "150:150")
   .save(`./image/${id}.webp`)
   .on('end', () => {
     stream.destroy()

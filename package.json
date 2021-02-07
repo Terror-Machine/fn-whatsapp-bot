@@ -38,7 +38,7 @@
     "jimp": "^0.16.1",
     "js-beautify": "^1.13.5",
     "match-index": "^1.0.3",
-    "mathjs": "^9.1.0",
+    "mathjs": "^9.2.0",
     "moment-duration-format": "^2.3.2",
     "moment-timezone": "^0.5.32",
     "ms": "^2.1.3",

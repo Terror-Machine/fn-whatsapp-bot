@@ -20,7 +20,7 @@
     "bent": "^7.3.12",
     "brainly-scraper": "^1.0.3",
     "canvacord": "^5.0.8",
-    "capture-website": "^1.2.8",
+    "capture-website": "^1.3.0",
     "chalk": "^4.1.0",
     "cheerio": "^1.0.0-rc.5",
     "common-tags": "^1.8.0",

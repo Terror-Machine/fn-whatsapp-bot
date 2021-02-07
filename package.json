@@ -46,7 +46,7 @@
     "node-cron": "^2.0.3",
     "node-fetch": "^2.6.1",
     "node-gtts": "^2.0.2",
-    "node-superfetch": "^0.1.10",
+    "node-superfetch": "^0.1.11",
     "node-tesseract-ocr": "^2.0.0",
     "nsfwjs": "^2.3.0",
     "parse-ms": "^2.1.0",

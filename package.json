@@ -14,7 +14,7 @@
     "@open-wa/wa-automate": "^3.3.1",
     "@tensorflow/tfjs-node": "^3.0.0",
     "animequotes": "^1.1.2",
-    "arr-sort": "^1.2.0",
+    "arr-sort": "^1.2.5",
     "async": "^3.2.0",
     "async-eval": "^0.1.5",
     "bent": "^7.3.12",

@@ -1,40 +1,42 @@
 {
-  "name": "fnbots",
-  "version": "1.1.17",
+  "name": "coligans",
+  "version": "0.0.1",
   "description": "A BOT PUBLIC MULTI FUNCTION",
   "engines": {
     "node": "14.x"
   },
-  "main": "main.js",
+  "main": "p.js",
   "scripts": {
-    "start": "node main.js"
+    "start": "node p.js",
+    "test": "node t.js"
   },
   "dependencies": {
     "@adiwajshing/baileys": "^3.4.1",
-    "@open-wa/wa-automate": "^3.3.1",
+    "@open-wa/wa-automate": "^3.4.1",
+    "@open-wa/wa-decrypt": "^3.0.1",
     "@tensorflow/tfjs-node": "^3.0.0",
     "animequotes": "^1.1.2",
     "arr-sort": "^1.2.5",
     "async": "^3.2.0",
     "async-eval": "^0.1.5",
     "bent": "^7.3.12",
-    "brainly-scraper": "^1.0.3",
     "canvacord": "^5.0.8",
     "capture-website": "^1.3.0",
+    "cfonts": "^2.9.1",
     "chalk": "^4.1.0",
     "cheerio": "^1.0.0-rc.5",
     "common-tags": "^1.8.0",
     "custom-translate": "^2.2.8",
     "difflib": "^0.2.4",
     "figlet": "^1.5.0",
-    "fluent-ffmpeg": "^2.1.2",
     "fs-extra": "^9.1.0",
     "google-it": "^1.6.1",
     "google-play-scraper": "^8.0.2",
     "html-entities": "^2.1.0",
-    "html-to-text": "^7.0.0",
+    "html-to-text": "^6.0.0",
     "human-readable": "^0.2.1",
     "image-to-base64": "^2.1.1",
+    "javascript-time-ago": "^2.3.4",
     "jimp": "^0.16.1",
     "js-beautify": "^1.13.5",
     "match-index": "^1.0.3",
@@ -50,7 +52,8 @@
     "node-tesseract-ocr": "^2.0.0",
     "nsfwjs": "^2.3.0",
     "parse-ms": "^2.1.0",
-    "puppeteer": "^7.1.0",
+    "pretty-ms": "^7.0.1",
+    "puppeteer": "^7.0.4",
     "readline-sync": "^1.4.10",
     "remove.bg": "^1.3.0",
     "sagiri": "^3.1.1",
@@ -69,23 +72,20 @@
     "xml2js": "^0.4.23",
     "youtube-mp3-downloader": "^0.7.6",
     "yt-play-cli": "^0.13.3",
-    "yt-search": "^2.7.3",
+    "yt-search": "^2.7.1",
     "ytdl-core": "^4.4.5"
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
-    "eslint": "^7.19.0",
-    "eslint-config-standard": "^16.0.2",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.3.1",
-    "eslint-plugin-standard": "^5.0.0",
     "got": "^11.8.1",
     "tape": "^5.1.1"
   },
+  "peerDependencies": {
+    "fluent-ffmpeg": "^2.1.2",
+    "sharp": "^0.27.0"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Terror-Machine/fn-whatsapp-bot"
+    "url": "git+https://github.com/Terror-Machine/fn-whatsapp-bot.git"
   },
   "keywords": [
     "fnbots",
@@ -93,5 +93,10 @@
     "whatsapp",
     "whatsapp-bot"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Terror-Machine/fn-whatsapp-bot/issues"
+  },
+  "homepage": "https://github.com/Terror-Machine/fn-whatsapp-bot#readme",
+  "author": "arfine meka"
 }

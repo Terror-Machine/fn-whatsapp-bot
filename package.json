@@ -33,7 +33,7 @@
     "google-it": "^1.6.1",
     "google-play-scraper": "^8.0.2",
     "html-entities": "^2.1.0",
-    "html-to-text": "^6.0.0",
+    "html-to-text": "^7.0.0",
     "human-readable": "^0.2.1",
     "image-to-base64": "^2.1.1",
     "javascript-time-ago": "^2.3.4",

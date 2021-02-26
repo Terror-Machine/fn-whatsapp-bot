@@ -76,7 +76,7 @@
     "ytdl-core": "^4.5.0"
   },
   "devDependencies": {
-    "got": "^11.8.1",
+    "got": "^11.8.2",
     "tape": "^5.2.0"
   },
   "peerDependencies": {

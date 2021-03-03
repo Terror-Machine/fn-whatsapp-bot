@@ -1,0 +1,102 @@
+{
+  "name": "coligans",
+  "version": "0.0.1",
+  "description": "A BOT PUBLIC MULTI FUNCTION",
+  "engines": {
+    "node": "14.x"
+  },
+  "main": "p.js",
+  "scripts": {
+    "start": "node p.js",
+    "test": "node t.js"
+  },
+  "dependencies": {
+    "@adiwajshing/baileys": "^3.4.1",
+    "@open-wa/wa-automate": "^3.6.3",
+    "@open-wa/wa-decrypt": "^3.0.1",
+    "@tensorflow/tfjs-node": "^3.1.0",
+    "animequotes": "^1.1.2",
+    "arr-sort": "^1.2.5",
+    "async": "^3.2.0",
+    "async-eval": "^0.1.5",
+    "bent": "^7.3.12",
+    "canvacord": "^5.0.8",
+    "capture-website": "^1.4.0",
+    "cfonts": "^2.9.1",
+    "chalk": "^4.1.0",
+    "cheerio": "^1.0.0-rc.5",
+    "common-tags": "^1.8.0",
+    "custom-translate": "^2.2.8",
+    "difflib": "^0.2.4",
+    "figlet": "^1.5.0",
+    "fs-extra": "^9.1.0",
+    "google-it": "^1.6.1",
+    "google-play-scraper": "^8.0.2",
+    "html-entities": "^2.1.0",
+    "html-to-text": "^7.0.0",
+    "human-readable": "^0.2.1",
+    "image-to-base64": "^2.1.1",
+    "javascript-time-ago": "^2.3.4",
+    "jimp": "^0.16.1",
+    "js-beautify": "^1.13.5",
+    "match-index": "^1.0.3",
+    "mathjs": "^9.2.0",
+    "moment-duration-format": "^2.3.2",
+    "moment-timezone": "^0.5.33",
+    "ms": "^2.1.3",
+    "mysql": "^2.18.1",
+    "node-cron": "^2.0.3",
+    "node-fetch": "^2.6.1",
+    "node-gtts": "^2.0.2",
+    "node-superfetch": "^0.1.11",
+    "node-tesseract-ocr": "^2.0.0",
+    "nsfwjs": "^2.3.0",
+    "parse-ms": "^2.1.0",
+    "pretty-ms": "^7.0.1",
+    "puppeteer": "^8.0.0",
+    "readline-sync": "^1.4.10",
+    "remove.bg": "^1.3.0",
+    "sagiri": "^3.1.1",
+    "stackblur-canvas": "^2.5.0",
+    "stream": "0.0.2",
+    "striptags": "^3.1.1",
+    "syntax-error": "^1.4.0",
+    "text2png": "^2.3.0",
+    "tiktok-scraper": "^1.4.12",
+    "translatte": "^3.0.0",
+    "urlencode": "^1.1.0",
+    "video-url-link": "git+https://github.com/YogaSakti/video-url-link.git",
+    "wget-improved": "^3.2.1",
+    "word-wrapper": "^1.0.7",
+    "wordwrap": "^1.0.0",
+    "xml2js": "^0.4.23",
+    "youtube-mp3-downloader": "^0.7.6",
+    "yt-play-cli": "^0.13.5",
+    "yt-search": "^2.7.3",
+    "ytdl-core": "^4.5.0"
+  },
+  "devDependencies": {
+    "got": "^11.8.1",
+    "tape": "^5.2.0"
+  },
+  "peerDependencies": {
+    "fluent-ffmpeg": "^2.1.2",
+    "sharp": "^0.27.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Terror-Machine/fn-whatsapp-bot.git"
+  },
+  "keywords": [
+    "fnbots",
+    "fnbots-wa",
+    "whatsapp",
+    "whatsapp-bot"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Terror-Machine/fn-whatsapp-bot/issues"
+  },
+  "homepage": "https://github.com/Terror-Machine/fn-whatsapp-bot#readme",
+  "author": "arfine meka"
+}

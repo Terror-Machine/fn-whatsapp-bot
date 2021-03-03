@@ -77,7 +77,7 @@
   },
   "devDependencies": {
     "got": "^11.8.1",
-    "tape": "^5.2.0"
+    "tape": "^5.2.2"
   },
   "peerDependencies": {
     "fluent-ffmpeg": "^2.1.2",

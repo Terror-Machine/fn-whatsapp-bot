@@ -13,7 +13,7 @@
   "dependencies": {
     "@adiwajshing/baileys": "^3.4.1",
     "@open-wa/wa-automate": "^3.6.3",
-    "@open-wa/wa-decrypt": "^3.0.1",
+    "@open-wa/wa-decrypt": "^4.0.1",
     "@tensorflow/tfjs-node": "^3.1.0",
     "animequotes": "^1.1.2",
     "arr-sort": "^1.2.5",

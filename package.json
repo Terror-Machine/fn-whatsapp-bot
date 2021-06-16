@@ -11,7 +11,7 @@
     "test": "node t.js"
   },
   "dependencies": {
-    "@adiwajshing/baileys": "^3.4.1",
+    "@adiwajshing/baileys": "^3.5.1",
     "@open-wa/wa-automate": "^3.6.3",
     "@open-wa/wa-decrypt": "^3.0.1",
     "@tensorflow/tfjs-node": "^3.1.0",

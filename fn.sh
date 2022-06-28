@@ -5,7 +5,7 @@ apt-get install -y curl
 apt-get install -y zip
 apt-get install -y webp
 apt-get install -y unzip
-curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh
+curl -sL https://deb.nodesource.com/setup_18.x -o nodesource_setup.sh
 bash nodesource_setup.sh
 apt-get install -y nodejs
 apt-get install -y gcc g++ make

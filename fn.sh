@@ -1,4 +1,3 @@
-dJ)4+pPLmv=WxX%6
 apt-get install -y mc
 apt-get -y update
 apt-get -y upgrade

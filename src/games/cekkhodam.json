@@ -1,0 +1,502 @@
+[
+  {
+    "nama": "Gajah Gembrot",
+    "deskripsi": "Khodam gajah yang suka ngemil banyak banget. Kalau muncul, biasanya langsung nyari makanan."
+  },
+  {
+    "nama": "Kucing Kepo",
+    "deskripsi": "Khodam kucing yang selalu ikut campur urusan orang lain. Sering nongkrong di jendela sambil curi dengar gosip."
+  },
+  {
+    "nama": "Ayam Geprek Bensu",
+    "deskripsi": "Khodam ayam yang suka muncul di warung makan, terutama yang ada level pedasnya. Seringkali bikin orang tiba-tiba kepedesan."
+  },
+  {
+    "nama": "Bebek Gosip",
+    "deskripsi": "Khodam bebek yang selalu punya berita baru tentang makhluk-makhluk gaib. Sering datang sambil ngerumpi di tengah malam."
+  },
+  {
+    "nama": "Kuda Poni Mager",
+    "deskripsi": "Khodam kuda poni yang lebih suka tidur dan mageran. Kalau dia muncul, pasti sambil rebahan."
+  },
+  {
+    "nama": "Singa Galau",
+    "deskripsi": "Khodam singa yang suka overthinking dan galauin hal-hal kecil. Sering ngelamun di pojokan."
+  },
+  {
+    "nama": "Zebra Zonk",
+    "deskripsi": "Khodam zebra yang selalu apes. Kalau muncul, sering bikin orang ketawa gara-gara kesialannya."
+  },
+  {
+    "nama": "Sapi Santuy",
+    "deskripsi": "Khodam sapi yang hidupnya santai banget. Suka makan rumput sambil dengerin musik reggae."
+  },
+  {
+    "nama": "Kambing Gaul",
+    "deskripsi": "Khodam kambing yang selalu update dengan tren terbaru. Sering muncul di acara-acara hipster."
+  },
+  {
+    "nama": "Kelinci Klepto",
+    "deskripsi": "Khodam kelinci yang punya kebiasaan aneh suka nyolong barang-barang kecil. Paling sering ketahuan ngumpetin wortel."
+  },
+  {
+    "nama": "Monyet Gabut",
+    "deskripsi": "Khodam monyet yang suka banget cari kegiatan aneh kalau lagi bosan. Sering bikin keributan tanpa alasan."
+  },
+  {
+    "nama": "Panci Karatan",
+    "deskripsi": "Khodam panci tua yang sudah penuh dengan karat. Sering terdengar suara dentingnya saat ada yang masak mie instan di malam hari."
+  },
+  {
+    "nama": "Sapu Emak",
+    "deskripsi": "Khodam sapu lidi milik emak-emak. Muncul saat ada yang malas membersihkan rumah, siap menghukum siapa pun yang ketahuan malas."
+  },
+  {
+    "nama": "Mio Karbu",
+    "deskripsi": "Khodam motor Mio dengan karburator jadul. Sering terdengar raungan khasnya di malam hari, terutama di jalanan kampung."
+  },
+  {
+    "nama": "Nokia Jadul",
+    "deskripsi": "Khodam ponsel Nokia yang tahan banting. Sering muncul saat orang membutuhkan telepon yang nggak ada matinya, meskipun sudah jatuh berkali-kali."
+  },
+  {
+    "nama": "Tasbih Ustad",
+    "deskripsi": "Khodam tasbih milik seorang ustad. Selalu berputar-putar sambil berdzikir di malam hari, mengingatkan untuk beribadah."
+  },
+  {
+    "nama": "Sandal Emak",
+    "deskripsi": "Khodam sandal jepit milik emak-emak. Sering muncul tiba-tiba saat ada anak yang nakal dan perlu diperingatkan dengan satu lemparan akurat."
+  },
+  {
+    "nama": "Selang Bapak",
+    "deskripsi": "Khodam selang air yang sering digunakan bapak-bapak untuk menyiram tanaman. Sering bergetar sendiri kalau ada yang lupa mematikannya."
+  },
+  {
+    "nama": "Kominfo",
+    "deskripsi": "Khodam pengawas internet. Sering muncul untuk memblokir situs-situs yang dianggap berbahaya, tapi kadang kelewat batas."
+  },
+  {
+    "nama": "PLN",
+    "deskripsi": "Khodam listrik yang sering datang membawa pemadaman tiba-tiba. Sering bikin orang kaget saat sedang nonton TV."
+  },
+  {
+    "nama": "Orang Dalam",
+    "deskripsi": "Khodam yang bisa memberikan akses khusus di saat-saat genting. Sering muncul saat ada yang membutuhkan bantuan ekstra di institusi tertentu."
+  },
+  {
+    "nama": "Jokowi",
+    "deskripsi": "Khodam pemimpin yang sederhana dan dekat dengan rakyat. Sering muncul di antara rakyatnya saat ada acara penting atau membutuhkan dukungan."
+  },
+  {
+    "nama": "Soeharto",
+    "deskripsi": "Khodam bapak pembangunan yang tegas. Sering muncul di dalam cerita-cerita lama tentang kepemimpinan yang kuat."
+  },
+  {
+    "nama": "Bapak Presiden",
+    "deskripsi": "Khodam yang membawa wibawa dan tanggung jawab besar. Sering terlihat di acara kenegaraan dan pidato penting."
+  },
+  {
+    "nama": "Kopi Kapal Api",
+    "deskripsi": "Khodam kopi yang selalu siap menemani begadang. Sering tercium aromanya saat ada yang lembur atau sedang nonton bola."
+  },
+  {
+    "nama": "Jawa",
+    "deskripsi": "Khodam dengan kebijaksanaan dan kesantunan khas. Sering muncul di acara-acara adat dan budaya."
+  },
+  {
+    "nama": "Sunda",
+    "deskripsi": "Khodam yang membawa keceriaan dan keramahan. Sering terlihat di acara pesta dan upacara adat Sunda."
+  },
+  {
+    "nama": "PDIP Mode Oposisi",
+    "deskripsi": "Khodam partai politik yang selalu siap mengkritik kebijakan pemerintah. Sering terlihat bersemangat saat ada kebijakan yang tidak sesuai."
+  },
+  {
+    "nama": "Banteng Merah",
+    "deskripsi": "Khodam simbol kekuatan dan keberanian. Sering muncul di rapat-rapat besar dan demonstrasi politik."
+  },
+  {
+    "nama": "Unta Overthinking",
+    "deskripsi": "Khodam unta yang suka mikirin segala kemungkinan. Sering bikin khawatir orang di sekitarnya."
+  },
+  {
+    "nama": "Jerapah Jenius",
+    "deskripsi": "Khodam jerapah yang sangat pintar. Suka kasih nasihat yang bijak, tapi kadang terlalu tinggi untuk dimengerti."
+  },
+  {
+    "nama": "Panda Pemalas",
+    "deskripsi": "Khodam panda yang hobi banget tidur. Kalau muncul, sering bikin orang ngantuk juga."
+  },
+  {
+    "nama": "Beruang Baper",
+    "deskripsi": "Khodam beruang yang gampang tersinggung. Sering ngambek kalau nggak diajak ngobrol."
+  },
+  {
+    "nama": "Harimau Halu",
+    "deskripsi": "Khodam harimau yang suka berkhayal. Kadang suka ketawa sendiri karena pikirannya sendiri."
+  },
+  {
+    "nama": "Serigala Salting",
+    "deskripsi": "Khodam serigala yang suka salah tingkah di depan makhluk lain. Selalu kikuk dalam situasi sosial."
+  },
+  {
+    "nama": "Kanguru Kudet",
+    "deskripsi": "Khodam kanguru yang selalu ketinggalan berita terbaru. Sering bertanya-tanya tentang tren yang udah lewat."
+  },
+  {
+    "nama": "Koala Koplak",
+    "deskripsi": "Khodam koala yang hobi bikin lelucon aneh. Sering muncul sambil bawa daun eucalyptus."
+  },
+  {
+    "nama": "Ular Julid",
+    "deskripsi": "Khodam ular yang suka ngomentarin kehidupan orang lain. Sering bikin drama di kalangan khodam lain."
+  },
+  {
+    "nama": "Kadal Kece",
+    "deskripsi": "Khodam kadal yang selalu tampil modis dan gaul. Sering pamer gaya di depan cermin."
+  },
+  {
+    "nama": "Kura-kura Kepo",
+    "deskripsi": "Khodam kura-kura yang lambat tapi sangat penasaran. Suka bertanya-tanya tentang hal-hal sepele."
+  },
+  {
+    "nama": "Bunglon Bucin",
+    "deskripsi": "Khodam bunglon yang suka berubah warna sesuai perasaan cintanya. Selalu nempel sama pasangannya."
+  },
+  {
+    "nama": "Iguana Introvert",
+    "deskripsi": "Khodam iguana yang lebih suka menyendiri. Sering muncul di sudut-sudut yang sepi."
+  },
+  {
+    "nama": "Komodo Kemayu",
+    "deskripsi": "Khodam komodo yang suka bergaya dengan berjalan lambat dan lemah gemulai. Paling senang jadi pusat perhatian."
+  },
+  {
+    "nama": "Anjing Agresif",
+    "deskripsi": "Khodam anjing yang selalu siap menyerang. Tapi kalau didekati, dia malah lari ketakutan."
+  },
+  {
+    "nama": "Kucing Belagu",
+    "deskripsi": "Khodam kucing yang punya sifat sok keren. Sering mengangkat ekornya tinggi-tinggi saat berjalan."
+  },
+  {
+    "nama": "Hamster Hedon",
+    "deskripsi": "Khodam hamster yang hidupnya glamor. Suka pesta di dalam rodanya sendiri."
+  },
+  {
+    "nama": "Kelinci Playboy",
+    "deskripsi": "Khodam kelinci yang selalu berusaha menggoda khodam lain. Punya gaya yang charming."
+  },
+  {
+    "nama": "Marmut Miskin",
+    "deskripsi": "Khodam marmut yang selalu merasa kurang beruntung. Sering meratapi nasibnya sambil ngemil wortel."
+  },
+  {
+    "nama": "Udang Keju",
+    "deskripsi": "Khodam udang yang suka menutupi dirinya dengan keju leleh. Sering muncul saat perut lapar dan bikin orang ngiler."
+  },
+  {
+    "nama": "Anjing Punk",
+    "deskripsi": "Khodam anjing dengan gaya rambut mohawk dan jaket kulit. Sering menggonggong sambil nyanyi lagu punk."
+  },
+  {
+    "nama": "Pecel Lele",
+    "deskripsi": "Khodam lele yang membawa aroma wangi bumbu pecel. Sering bikin orang ngidam makan malam dadakan."
+  },
+  {
+    "nama": "Supra Trotok",
+    "deskripsi": "Khodam motor yang selalu bikin ribut di malam hari. Sering terdengar dari kejauhan sebelum muncul tiba-tiba."
+  },
+  {
+    "nama": "Gajah Gembrot",
+    "deskripsi": "Khodam gajah yang suka ngemil sepanjang hari. Sering terlihat berjalan pelan sambil makan cemilan."
+  },
+  {
+    "nama": "Kucing Kepo",
+    "deskripsi": "Khodam kucing yang selalu ingin tahu urusan orang. Sering mengintip dari balik jendela."
+  },
+  {
+    "nama": "Ayam Geprek Bensu",
+    "deskripsi": "Khodam ayam yang suka pedas dan bersemangat. Sering bikin orang yang lihat jadi lapar."
+  },
+  {
+    "nama": "Bebek Gosip",
+    "deskripsi": "Khodam bebek yang suka bergosip dengan suara berisik. Sering didengar di pinggir kolam sambil bercengkerama."
+  },
+  {
+    "nama": "Kuda Poni Mager",
+    "deskripsi": "Khodam kuda poni yang suka rebahan dan malas bergerak. Sering terlihat sedang tidur di tempat yang nyaman."
+  },
+  {
+    "nama": "Singa Galau",
+    "deskripsi": "Khodam singa yang sering bingung antara menyerang atau merenung. Sering mengaum galau di tengah malam."
+  },
+  {
+    "nama": "Burung Hantu Baper",
+    "deskripsi": "Khodam burung hantu yang mudah tersinggung. Sering muncul di malam hari sambil curhat tentang hidupnya."
+  },
+  {
+    "nama": "Merpati Bucin",
+    "deskripsi": "Khodam merpati yang selalu terbang berdua. Suka ngirim pesan cinta antar khodam."
+  },
+  {
+    "nama": "Elang Mokondo",
+    "deskripsi": "Khodam elang yang punya aura bossy. Sering menatap tajam ke bawah seolah-olah mengatur segalanya."
+  },
+  {
+    "nama": "Gagak Galau",
+    "deskripsi": "Khodam gagak yang selalu berada di persimpangan keputusan. Suka berputar-putar tanpa arah sambil memikirkan hidup."
+  },
+  {
+    "nama": "Burung Unta Overthinking",
+    "deskripsi": "Khodam burung unta yang selalu memikirkan skenario terburuk. Sering ngubur kepalanya di pasir kalau udah stres."
+  },
+  {
+    "nama": "Ikan Lele Lapar",
+    "deskripsi": "Khodam ikan lele yang nggak pernah kenyang. Suka berkeliaran di kolam sambil mencari makanan."
+  },
+  {
+    "nama": "Ikan Mas Manja",
+    "deskripsi": "Khodam ikan mas yang suka diperhatiin. Sering minta dielus-elus meskipun lagi berenang."
+  },
+  {
+    "nama": "Ikan Cupang Centil",
+    "deskripsi": "Khodam ikan cupang yang suka bergaya di depan kaca. Sering mengembangkan siripnya untuk menarik perhatian."
+  },
+  {
+    "nama": "Ikan Hiu Halu",
+    "deskripsi": "Khodam ikan hiu yang suka berimajinasi jadi raja lautan. Sering ketawa sendiri sambil berenang."
+  },
+  {
+    "nama": "Ikan Pari Pemalu",
+    "deskripsi": "Khodam ikan pari yang suka ngumpet di dasar laut. Sering muncul cuma kalau nggak ada yang lihat."
+  },
+  {
+    "nama": "Udang Galau",
+    "deskripsi": "Khodam udang yang selalu bimbang dalam mengambil keputusan. Suka berenang bolak-balik tanpa arah."
+  },
+  {
+    "nama": "Kepiting Kepo",
+    "deskripsi": "Khodam kepiting yang selalu penasaran. Sering berjalan ke samping untuk ngintip apa yang lagi terjadi."
+  },
+  {
+    "nama": "Lobster Lebay",
+    "deskripsi": "Khodam lobster yang suka melebih-lebihkan segala hal. Sering ngerasa paling hebat di laut."
+  },
+  {
+    "nama": "Cumi-cumi Cemburu",
+    "deskripsi": "Khodam cumi-cumi yang gampang cemburu. Sering menyemprotkan tinta kalau merasa tersaingi."
+  },
+  {
+    "nama": "Gurita Grumpy",
+    "deskripsi": "Khodam gurita yang suka ngedumel. Sering kali marah-marah tanpa alasan jelas sambil menggerakkan tentakelnya."
+  },
+  {
+    "nama": "Lebah Baper",
+    "deskripsi": "Khodam lebah yang gampang tersinggung. Kalau merasa nggak dihiraukan, dia langsung terbang pergi dengan perasaan sedih."
+  },
+  {
+    "nama": "Semut Santuy",
+    "deskripsi": "Khodam semut yang hidupnya tanpa beban. Meskipun rajin bekerja, dia selalu tampak santai dan happy."
+  },
+  {
+    "nama": "Kupu-kupu Kemayu",
+    "deskripsi": "Khodam kupu-kupu yang suka pamer warna-warni sayapnya. Selalu terlihat elegan di mana pun dia berada."
+  },
+  {
+    "nama": "Belalang Bucin",
+    "deskripsi": "Khodam belalang yang selalu mengikuti pasangannya kemana pun. Sering lompat-lompat sambil bawa bunga."
+  },
+  {
+    "nama": "Capung Centil",
+    "deskripsi": "Khodam capung yang suka menggoda serangga lain. Sering mengitari mereka sambil bikin pusing."
+  },
+  {
+    "nama": "Nyamuk Nakal",
+    "deskripsi": "Khodam nyamuk yang suka jahil. Sering gangguin orang sambil tertawa licik."
+  },
+  {
+    "nama": "Lalat Lebay",
+    "deskripsi": "Khodam lalat yang suka drama. Sering terbang ke sana kemari sambil bikin ribut."
+  },
+  {
+    "nama": "Kecoa Kepo",
+    "deskripsi": "Khodam kecoa yang selalu penasaran. Suka muncul di tempat-tempat tak terduga dan ngagetin orang."
+  },
+  {
+    "nama": "Jangkrik Jones",
+    "deskripsi": "Khodam jangkrik yang jomblo dan kesepian. Sering bernyanyi di malam hari berharap ada yang menemani."
+  },
+  {
+    "nama": "Kumbang Koplak",
+    "deskripsi": "Khodam kumbang yang suka bertingkah konyol. Sering terbang nabrak benda tanpa alasan."
+  },
+  {
+    "nama": "Ulat Bulu Baper",
+    "deskripsi": "Khodam ulat bulu yang sensitif. Mudah tersinggung kalau ada yang bilang dia belum jadi kupu-kupu."
+  },
+  {
+    "nama": "Belut Bucin",
+    "deskripsi": "Khodam belut yang sangat setia dan lengket sama pasangan. Suka melilit erat sebagai tanda cinta."
+  },
+  {
+    "nama": "Lintah Mokondo",
+    "deskripsi": "Khodam lintah yang suka nempel di orang-orang penting. Sering muncul di acara besar sambil cari kesempatan."
+  },
+  {
+    "nama": "Cacing Galau",
+    "deskripsi": "Khodam cacing yang sering merasa bingung dengan hidupnya. Sering merenung di tanah yang lembab."
+  },
+  {
+    "nama": "Bekicot Baper",
+    "deskripsi": "Khodam bekicot yang suka merasa tersisih. Sering ngumpet di cangkangnya kalau merasa sedih."
+  },
+  {
+    "nama": "Katak Gaul",
+    "deskripsi": "Khodam katak yang selalu up to date dengan tren terbaru. Suka loncat-loncat sambil pamer gaya baru."
+  },
+  {
+    "nama": "Kodok Kepo",
+    "deskripsi": "Khodam kodok yang selalu penasaran dengan kehidupan orang lain. Suka muncul tiba-tiba sambil melotot."
+  },
+  {
+    "nama": "Cicak Centil",
+    "deskripsi": "Khodam cicak yang suka genit. Sering menggoda cicak lain dengan gerakan ekornya."
+  },
+  {
+    "nama": "Tokek Tukang Tidur",
+    "deskripsi": "Khodam tokek yang paling suka tidur. Sering ketiduran di tempat-tempat aneh dan bikin orang kaget."
+  },
+  {
+    "nama": "Kadal Pemalas",
+    "deskripsi": "Khodam kadal yang malas bergerak. Sering nongkrong di satu tempat tanpa pindah-pindah seharian."
+  },
+  {
+    "nama": "Laba-laba Lucu",
+    "deskripsi": "Khodam laba-laba yang punya tampilan imut. Meskipun suka bikin jaring, dia lebih suka bermain-main."
+  },
+  {
+    "nama": "Kalajengking Kece",
+    "deskripsi": "Khodam kalajengking yang selalu tampil gaya dengan ekor terangkat. Suka pamer di depan serangga lain."
+  },
+  {
+    "nama": "Kelabang Klepto",
+    "deskripsi": "Khodam kelabang yang punya kebiasaan suka nyolong barang-barang kecil. Sering menyimpan barang curiannya di tempat tersembunyi."
+  },
+  {
+    "nama": "Lipan Lenjeh",
+    "deskripsi": "Khodam lipan yang suka bergaya lemah gemulai. Meskipun punya banyak kaki, dia tetap berjalan dengan anggun."
+  },
+  {
+    "nama": "Kucing Oren Barbar",
+    "deskripsi": "Khodam kucing oren yang terkenal galak dan pemberani. Sering bikin rusuh di kampung kucing."
+  },
+  {
+    "nama": "Anjing Pug Pemalas",
+    "deskripsi": "Khodam anjing pug yang suka banget tidur dan makan. Sering terlihat tidur nyenyak di tempat-tempat lucu."
+  },
+  {
+    "nama": "Hamster Gemoy",
+    "deskripsi": "Khodam hamster yang sangat menggemaskan. Suka berlari di roda dan bikin semua orang yang lihat jadi senyum."
+  },
+  {
+    "nama": "Burung Beo Bawel",
+    "deskripsi": "Khodam burung beo yang suka ngomong nggak berhenti-berhenti. Sering meniru apa yang orang lain katakan."
+  },
+  {
+    "nama": "Monyet Usil",
+    "deskripsi": "Khodam monyet yang suka iseng. Sering nyolong barang-barang dan bikin orang jengkel."
+  },
+  {
+    "nama": "Kura-kura Lamban",
+    "deskripsi": "Khodam kura-kura yang super lambat dalam segala hal. Selalu ketinggalan tren terbaru."
+  },
+  {
+    "nama": "Singa Pemberani",
+    "deskripsi": "Khodam singa yang selalu siap untuk bertarung. Sering mengaum untuk menakut-nakuti musuh."
+  },
+  {
+    "nama": "Zebra Belang-bentong",
+    "deskripsi": "Khodam zebra yang belangnya nggak rata. Sering merasa nggak PD karena penampilannya yang unik."
+  },
+  {
+    "nama": "Sapi Gendut",
+    "deskripsi": "Khodam sapi yang suka makan dan malas bergerak. Selalu terlihat kenyang dan bahagia."
+  },
+  {
+    "nama": "Kambing Kurus",
+    "deskripsi": "Khodam kambing yang suka olahraga. Punya penampilan yang ramping dan fit."
+  },
+  {
+    "nama": "Kelinci Imut",
+    "deskripsi": "Khodam kelinci yang punya penampilan super menggemaskan. Sering bikin orang gemas dan pengen mengelus."
+  },
+  {
+    "nama": "Monyet Nakal",
+    "deskripsi": "Khodam monyet yang nggak bisa diam. Selalu bikin ulah dan bikin orang sekitar ketawa."
+  },
+  {
+    "nama": "Unta Bongkok",
+    "deskripsi": "Khodam unta yang punya punggung besar. Sering bercerita tentang petualangannya di padang pasir."
+  },
+  {
+    "nama": "Jerapah Tinggi",
+    "deskripsi": "Khodam jerapah yang suka mengintip dari kejauhan. Sering terlihat ngelamun sambil makan daun."
+  },
+  {
+    "nama": "Panda Lucu",
+    "deskripsi": "Khodam panda yang sangat menggemaskan dan suka tiduran. Sering membuat orang terhibur dengan kelucuannya."
+  },
+  {
+    "nama": "Beruang Coklat",
+    "deskripsi": "Khodam beruang yang selalu terlihat kalem tapi kuat. Suka jalan-jalan di hutan sambil mencari madu."
+  },
+  {
+    "nama": "Harimau Loreng",
+    "deskripsi": "Khodam harimau yang punya corak loreng khas. Suka mengaum keras untuk menunjukkan keberadaannya."
+  },
+  {
+    "nama": "Serigala Liar",
+    "deskripsi": "Khodam serigala yang sering berkeliaran sendirian. Suka mengamati keadaan sebelum bertindak."
+  },
+  {
+    "nama": "Kanguru Melompat",
+    "deskripsi": "Khodam kanguru yang sangat aktif dan suka melompat. Selalu mencari tempat-tempat tinggi untuk unjuk kemampuan."
+  },
+  {
+    "nama": "Koala Tidur",
+    "deskripsi": "Khodam koala yang paling malas bergerak. Sering terlihat nempel di pohon sambil tidur pulas."
+  },
+  {
+    "nama": "Ular Berbisa",
+    "deskripsi": "Khodam ular yang punya racun berbahaya. Suka muncul di tempat-tempat sepi untuk menakut-nakuti."
+  },
+  {
+    "nama": "Kadal Hijau",
+    "deskripsi": "Khodam kadal yang suka berjemur di bawah sinar matahari. Selalu tampil segar dengan warna hijaunya."
+  },
+  {
+    "nama": "Kura-kura Tua",
+    "deskripsi": "Khodam kura-kura yang bijaksana dan berumur panjang. Sering memberi nasihat yang mendalam."
+  },
+  {
+    "nama": "Bunglon Berubah Warna",
+    "deskripsi": "Khodam bunglon yang suka berkamuflase. Sering mengejutkan orang dengan kemampuannya berubah warna."
+  },
+  {
+    "nama": "Iguana Besar",
+    "deskripsi": "Khodam iguana yang sangat besar dan kuat. Suka berjemur di atas batu untuk menunjukkan kekuasaannya."
+  },
+  {
+    "nama": "Komodo Langka",
+    "deskripsi": "Khodam komodo yang sangat langka dan dihormati. Sering muncul di momen-momen penting."
+  },
+  {
+    "nama": "Anjing Lucu",
+    "deskripsi": "Khodam anjing yang sangat menggemaskan. Sering membuat orang merasa nyaman dengan kehadirannya."
+  },
+  {
+    "nama": "Kucing Manja",
+    "deskripsi": "Khodam kucing yang selalu ingin diperhatikan. Suka menggosokkan tubuhnya di kaki orang."
+  }
+]

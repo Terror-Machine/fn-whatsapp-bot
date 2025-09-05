@@ -10483,6 +10483,37 @@ async function arfine(fn, m, store, asu) {
               } finally {
                 await deleteFile(finalImagePath);
               }
+            } else if (!commandFound && await getPrefix(txt, 'gemini-img2text')) {
+              try {
+                const targetMsg = quotedMsg ? m.quoted || m : m.message;
+                const mimeType = targetMsg?.imageMessage?.mimetype;
+                if (!mimeType) throw new Error('Balas sebuah gambar, atau kirim gambar dengan caption perintah ini.');
+                const mediaBuffer = await fn.getMediaBuffer(targetMsg);
+                if (!mediaBuffer) throw new Error('Gagal mengunduh media gambar.');
+                const fileType = await FileType.fromBuffer(mediaBuffer);
+                const supportedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+                if (!fileType || !supportedTypes.includes(fileType.mime)) throw new Error(`Tipe file tidak didukung. Diketahui: ${fileType?.mime || 'tidak diketahui'}`);
+                const genAI = new GoogleGenerativeAI(gemini);
+                const model = genAI.getGenerativeModel({
+                  model: "gemini-1.5-flash",
+                  generationConfig: { responseModalities: ['TEXT'] },
+                  safetySettings,
+                });
+                const promptParts = [
+                  { text: "Tolong lakukan OCR penuh. Hasil harus persis semua teks yang terlihat di gambar termasuk yang tidak jelas atau didalam logo. Jangan berikan penjelasan, hanya teks hasil OCR." },
+                  { inlineData: { mimeType: fileType.mime, data: mediaBuffer.toString('base64') } }
+                ];
+                const result = await model.generateContent(promptParts);
+                const response = result.response;
+                const textOutput = response.text();
+                if (!textOutput) throw new Error("AI tidak berhasil membaca teks dari gambar.");
+                await sReply(textOutput); await counthit(serial);
+                if (hakIstimewa) await limitAdd(serial);
+                else await limitcok(serial);
+                commandFound = true;
+              } catch (error) {
+                await log(`Terjadi error saat OCR Gemini:\n${error}`, true); await sReply(`Maaf, gagal membaca teks dari gambar. ${error.message}`); await counthit(serial);
+              }
             } else if (!commandFound && await getPrefix(txt, 'chatbot')) {
               try {
                 const mode = (args[0] || '').toLowerCase();

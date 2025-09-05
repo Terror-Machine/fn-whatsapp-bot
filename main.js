@@ -75,7 +75,6 @@ const { Chess } = require('chess.js');
 const { Boom } = require('@hapi/boom');
 const translatte = require('translatte');
 const ttsId = require('node-gtts')('id');
-const Tesseract = require('tesseract.js');
 const qrcode = require("qrcode-terminal");
 const speedTest = require('speedtest-net');
 const { EventEmitter } = require('events');
@@ -11650,28 +11649,6 @@ async function arfine(fn, m, store, asu) {
                 }
                 commandFound = true;
               } catch (error) { await sReply(error.message); await counthit(serial); }
-            } else if (!commandFound && await getPrefix(txt, 'ocr')) {
-              try {
-                const targetMsg = quotedMsg ? m.quoted || m : m.message;
-                if (!targetMsg) throw new Error("Media tidak ditemukan. Mohon balas atau kirim gambar.");
-                const mime = targetMsg?.imageMessage?.mimetype;
-                if (!mime) throw new Error("Tipe media tidak didukung. Harap kirim atau balas gambar.");
-                const buffer = await fn.getMediaBuffer(targetMsg);
-                const lang = arg ? args[0] : 'eng';
-                const { data: { text } } = await Tesseract.recognize(
-                  buffer,
-                  lang
-                );
-                if (text && text.trim().length > 0) {
-                  await sReply(text.trim());
-                } else {
-                  await sReply("Tidak ada teks yang terdeteksi pada gambar.");
-                }
-                await counthit(serial); await limitAdd(serial);
-                commandFound = true;
-              } catch (error) {
-                await log(`OCR Error:\n${error}`, true); await counthit(serial); await sReply(error.message);
-              }
             } else if (!commandFound && await getPrefix(txt, 'obfuscate')) {
               try {
                 let level = 'medium';

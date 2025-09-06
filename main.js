@@ -451,6 +451,7 @@ async function getBaileysVersion() {
 async function scheduledStoreReset() {
   try {
     store = {
+      ...store,
       presences: {},
       status: {},
       conversations: {},
@@ -458,11 +459,11 @@ async function scheduledStoreReset() {
       groupMetadata: {},
     };
     storeDirty = true;
-    await log(`Store berhasil di-reset.`);
+    await log(`Store berhasil di-reset (contacts dipertahankan).`);
   } catch (error) {
     await log(`Gagal reset store:\n${error}`, true);
   }
-}
+};
 
 function pruneComs(currentComs, validCommandList) {
   const validCommandsSet = new Set(validCommandList);
@@ -4434,7 +4435,7 @@ async function clientBot(fn, store) {
       let metadata = store.groupMetadata?.[id];
       return metadata ? metadata.subject : "none";
     } else {
-      let metadata = store.contacts[id];
+      let metadata = store?.contacts?.[id];
       return (metadata?.name || metadata?.verifiedName || metadata?.notify || "Unknown?");
     }
   };

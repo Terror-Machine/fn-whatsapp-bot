@@ -56,11 +56,10 @@ Proyek ini menggunakan library [Baileys](https://www.npmjs.com/package/baileys) 
 - **Pillow**
 - **rembg**
 
-### **AI & Machine Learning**
+### **AI & Machine Learning & OCR**
 - **Gemini Google Generative AI**
 - **Hugging Face**
 - **g4f**
-- **Tesseract.js**
 
 ### **Utilities**
 - **Canvas**

@@ -164,8 +164,8 @@ fi
 
 echo ""
 echo "🎭 Menginstall dan setup Playwright..."
-npx playwright install
 npx playwright install-deps
+npx playwright install
 
 echo ""
 echo "🧹 Membersihkan cache apt..."

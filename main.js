@@ -67,6 +67,7 @@ const cron = require('node-cron');
 const Math_js = require('mathjs');
 const cheerio = require('cheerio');
 const mime = require("mime-types");
+const { OpenAI } = require('openai');
 const webp = require('node-webpmux');
 const readline = require('readline');
 const FormData = require('form-data');
@@ -82,7 +83,6 @@ const sizeOf = require('image-size').default;
 const ffmpeg = require('@ts-ffmpeg/fluent-ffmpeg');
 const { Downloader } = require('@tobyg74/tiktok-api-dl');
 const { parsePhoneNumber } = require('awesome-phonenumber');
-const { InferenceClient } = require('@huggingface/inference');
 const { letterTrans, wordTrans } = require('custom-translate');
 const { createCanvas, loadImage, registerFont } = require('canvas');
 const { SpotifyDownloader, YoutubeDownloader } = require('yt-spotify-dl');
@@ -4017,20 +4017,12 @@ async function generateSudokuBoardImage(puzzle, board, errorIndices = []) {
 // ─── Info ────────────────────────────────
 
 async function getSerial(m, store) {
-  if (m.key?.fromMe === true) return;
-  if (m.key?.fromMe === false) {
-    let id;
-    if (m.key.remoteJid?.endsWith('@g.us')) {
-      id = m.key.participantPn || m.key.participant || m.key.senderPn;
-    } else {
-      id = m.key.senderLid ? m.key.remoteJid : m.key.remoteJid;
-    }
-    if (id?.endsWith('@lid') && store) {
-      return await findJidByLid(store, id) || id;
-    }
-    return id;
+  if (m.key?.fromMe) return;
+  const sender = m.sender;
+  if (sender?.endsWith('@lid') && store) {
+    return await findJidByLid(store, sender) || sender;
   }
-  return;
+  return sender;
 };
 async function processContactUpdate(contact, store) {
   let trueJid;
@@ -5165,21 +5157,17 @@ async function groupParticipantsUpdate({ id, participants, action }, store, fn) 
 async function serializeMessage(fn, msg, store) {
   let botNumber = fn.decodeJid(fn.user?.id);
   let groupAdmins = [];
-  let pJid = null;
-  let pLid = null;
   let mfrom = null;
   let mchat = null;
   const m = {};
   if (msg.key) {
     const key = { ...msg.key };
     m.isGroup = key.remoteJid.endsWith('@g.us');
-    if (!m.isGroup) {
-      delete key.participant;
-      delete key.participantLid;
-      delete key.participantPn;
+    if (m.isGroup) {
+      delete key.remoteJidAlt;
     } else {
-      delete key.senderLid;
-      delete key.senderPn;
+      delete key.participant;
+      delete key.participantAlt;
     }
     m.key = key;
     m.fromMe = msg.key.fromMe;
@@ -5227,35 +5215,32 @@ async function serializeMessage(fn, msg, store) {
   };
   if (!msg || !msg.message) return null;
   m.message = unwrapMessage(msg.message);
-  const senderJidInKey = msg.key.senderPn ? jidNormalizedUser(msg.key.senderPn) : null;
-  const senderLidInKey = msg.key.senderLid;
-  const chatJid = mchat.endsWith('@s.whatsapp.net') ? jidNormalizedUser(mchat) : null;
-  if (chatJid && senderLidInKey) {
-    const contactName = msg.pushName || store.contacts[chatJid]?.name || fn.getName(chatJid);
-    await updateContact(store, chatJid, { lid: senderLidInKey, name: contactName });
-    m.key.remoteJid = mchat;
-    m.key.senderLid = senderLidInKey;
-    m.key.senderPn = mchat;
-  } else if (mchat.endsWith('@lid') && senderJidInKey) {
-    const contactName = msg.pushName || store.contacts[senderJidInKey]?.name || fn.getName(senderJidInKey);
-    await updateContact(store, senderJidInKey, { lid: mfrom, name: contactName });
-    m.key.remoteJid = senderJidInKey;
-    m.key.senderLid = mchat;
-    m.key.senderPn = senderJidInKey;
-    mfrom = senderJidInKey;
-    mchat = senderJidInKey;
+  let senderJid, senderLid;
+  if (m.isGroup) {
+    const participant = jidNormalizedUser(msg.key.participant);
+    const participantAlt = jidNormalizedUser(msg.key.participantAlt);
+    senderJid = participant?.endsWith('@s.whatsapp.net') ? participant : (participantAlt?.endsWith('@s.whatsapp.net') ? participantAlt : null);
+    senderLid = participant?.endsWith('@lid') ? participant : (participantAlt?.endsWith('@lid') ? participantAlt : null);
+    m.participant = senderJid || participant;
+    m.key.participant = senderJid;
+    m.key.participantAlt = senderLid;
+  } else {
+    const remoteJid = jidNormalizedUser(msg.key.remoteJid);
+    const remoteJidAlt = jidNormalizedUser(msg.key.remoteJidAlt);
+    senderJid = remoteJid?.endsWith('@s.whatsapp.net') ? remoteJid : (remoteJidAlt?.endsWith('@s.whatsapp.net') ? remoteJidAlt : null);
+    senderLid = remoteJid?.endsWith('@lid') ? remoteJid : (remoteJidAlt?.endsWith('@lid') ? remoteJidAlt : null);
+    mfrom = senderJid || remoteJid;
+    mchat = mfrom;
+    m.participant = mfrom;
+    m.key.remoteJid = senderJid;
+    m.key.remoteJidAlt = senderLid;
+  }
+  if (senderJid && senderLid) {
+    const contactName = msg.pushName || store.contacts[senderJid]?.name || fn.getName(senderJid);
+    await updateContact(store, senderJid, { lid: senderLid, name: contactName });
   }
   if (m.isGroup) {
     let metadata = store.groupMetadata[mchat];
-    pJid = m.key.participantPn || (m.key.participant?.endsWith('@s.whatsapp.net') ? m.key.participant : null);
-    pLid = m.key.participantLid || (m.key.participant?.endsWith('@lid') ? m.key.participant : null);
-    if (pJid && pLid) {
-      const cName = msg.pushName || store.contacts[pJid]?.name || fn.getName(pJid);
-      await updateContact(store, pJid, { lid: pLid, name: cName });
-      m.key.participant = pJid;
-      m.key.participantPn = pJid;
-      m.key.participantLid = pLid;
-    }
     m.metadata = metadata;
     if (m.metadata?.participants) {
       m.metadata.participants = m.metadata.participants.map(p => ({
@@ -5263,14 +5248,13 @@ async function serializeMessage(fn, msg, store) {
         admin: p.admin || null
       }));
     }
-    groupAdmins = metadata?.participants?.reduce((a, b) => {
+    groupAdmins = m.metadata?.participants?.reduce((a, b) => {
       if (b.admin) a.push({ id: b.id, admin: b.admin });
       return a;
     }, []) || [];
   }
   m.from = mfrom;
   m.chat = mchat;
-  m.participant = pJid || m.from;
   m.sender = m.participant;
   m.botnumber = botNumber;
   if (m.isGroup) {
@@ -5605,15 +5589,26 @@ async function starts() {
       const lastMessage = chatUpdate.messages?.[0];
       if (!lastMessage || !lastMessage.key) continue;
       const key = lastMessage.key;
-      let jid, lid;
-      if (key.senderPn) {
-        jid = jidNormalizedUser(key.senderPn);
-        lid = jidNormalizedUser(key.remoteJid);
-      } else if (key.senderLid) {
-        jid = jidNormalizedUser(key.remoteJid);
-        lid = key.senderLid;
+      const isGroup = key.remoteJid.endsWith('@g.us');
+      if (isGroup) {
+        delete key.remoteJidAlt;
+      } else {
+        delete key.participant;
+        delete key.participantAlt;
       }
-      if (jid && jid.endsWith('@s.whatsapp.net')) {
+      let jid, lid;
+      if (isGroup) {
+        const participant = jidNormalizedUser(key.participant);
+        const participantAlt = jidNormalizedUser(key.participantAlt);
+        jid = participant?.endsWith('@s.whatsapp.net') ? participant : (participantAlt?.endsWith('@s.whatsapp.net') ? participantAlt : null);
+        lid = participant?.endsWith('@lid') ? participant : (participantAlt?.endsWith('@lid') ? participantAlt : null);
+      } else {
+        const remoteJid = jidNormalizedUser(key.remoteJid);
+        const remoteJidAlt = jidNormalizedUser(key.remoteJidAlt);
+        jid = remoteJid?.endsWith('@s.whatsapp.net') ? remoteJid : (remoteJidAlt?.endsWith('@s.whatsapp.net') ? remoteJidAlt : null);
+        lid = remoteJid?.endsWith('@lid') ? remoteJid : (remoteJidAlt?.endsWith('@lid') ? remoteJidAlt : null);
+      }
+      if (jid && lid) {
         const eName = lastMessage.pushName || fn.getName(jid);
         await updateContact(store, jid, { lid: lid, name: eName });
       }
@@ -5740,9 +5735,8 @@ async function arfine(fn, m, store, asu) {
       cleanedText = cleanedText.replace(pattern, '$1');
     });
     return cleanedText.trim();
-  }
-
-  const formatDurationMessage = (duration) => {
+  };
+  function formatDurationMessage(duration) {
     let years = duration.years();
     let months = duration.months();
     let days = duration.days();
@@ -5758,13 +5752,14 @@ async function arfine(fn, m, store, asu) {
     if (seconds > 0) durationMessage += `${seconds} second(s)`;
     return durationMessage;
   };
-  const handleAddPremiumUser = async (benet, duration, serial) => {
+
+  async function handleAddPremiumUser(benet, duration, serial) {
     let durationParsed = formatDuration(duration);
     let durationMessage = formatDurationMessage(durationParsed);
     await addPremiumUser(benet, duration, dbPremium); await counthit(serial);
     await sReply(`*「 PREMIUM ADDED 」*\n\n➸ *ID*: @${benet.split('@')[0]}\n${durationMessage}`);
   };
-  const handleDeletePremiumUser = async (input, serial) => {
+  async function handleDeletePremiumUser(input, serial) {
     const targetList = archimed(input, dbPremium);
     if (!Array.isArray(targetList) || targetList.length === 0) throw new Error(`Incorrect format, example: ${dbSettings.rname}premium del 1,2,3 or @user`);
     for (let user of targetList) {
@@ -5773,7 +5768,7 @@ async function arfine(fn, m, store, asu) {
     }
     await dumpPrem(); await counthit(serial); await reactDone();
   };
-  const handleListPremiumUsers = async (serial) => {
+  async function handleListPremiumUsers(serial) {
     let ts = "*## " + dbSettings.botname + " Premium ##*\n";
     let no = 1;
     const surya12 = dbPremium.slice().sort((a, b) => b.expired - a.expired);
@@ -5788,13 +5783,13 @@ async function arfine(fn, m, store, asu) {
     ts += "\nRegards: *" + dbSettings.botname + "*";
     await sReply(ts); await counthit(serial);
   };
-  const handleAddVIPUser = async (benet, duration, serial) => {
+  async function handleAddVIPUser(benet, duration, serial) {
     const durationParsed = formatDuration(duration);
     const durationMessage = formatDurationMessage(durationParsed);
     await addUserVIP(benet, duration, dbVIP); await counthit(serial);
     await sReply(`*「 VIP ADDED 」*\n\n➸ *ID*: @${benet.split('@')[0]}\n${durationMessage}`);
   };
-  const handleDeleteVIPUser = async (input, serial) => {
+  async function handleDeleteVIPUser(input, serial) {
     const targetList = archimed(input, dbVIP);
     if (!Array.isArray(targetList) || targetList.length === 0) throw new Error(`Incorrect format, example: ${dbSettings.rname}vip del 1,2,3 or @user`);
     for (let user of targetList) {
@@ -5803,7 +5798,7 @@ async function arfine(fn, m, store, asu) {
     }
     await dumpVIP(); await counthit(serial); await reactDone();
   };
-  const handleListVIPUsers = async (serial) => {
+  async function handleListVIPUsers(serial) {
     let ts = "*## " + dbSettings.botname + " VIP ##*\n";
     let no = 1;
     const surya12 = dbVIP.slice().sort((a, b) => b.expired - a.expired);
@@ -5818,7 +5813,6 @@ async function arfine(fn, m, store, asu) {
     ts += "\nRegards: *" + dbSettings.botname + "*";
     await sReply(ts); await counthit(serial);
   };
-
   async function limitAddGame(id) {
     if (isSadmin || master || vip || fromBot) return;
     const userIndex = dbLimitGame.limitgame.findIndex(u => u.id === id);
@@ -6023,7 +6017,7 @@ async function arfine(fn, m, store, asu) {
       console.error('Error getting video duration:', error);
       return 10;
     }
-  }
+  };
 
   if (body?.toLowerCase().trim() == "res") {
     if (isSadmin || master) {
@@ -10345,26 +10339,11 @@ async function arfine(fn, m, store, asu) {
               }
             } else if (!commandFound && await getPrefix(txt, 'huggingface')) {
               try {
-                if (!arg) throw new Error(`Silakan berikan pertanyaan atau perintah yang ingin Kamu tanyakan ke Hugging Face.\nContoh: ${dbSettings.sname}huggingface Apa itu AI?`);
-                const hfClient = new InferenceClient(hfapi);
-                const res = await hfClient.chatCompletion({
-                  provider: "hf-inference",
-                  model: "meta-llama/Llama-3.1-8B-Instruct",
-                  messages: [
-                    {
-                      role: 'system',
-                      content: "Nama lu " + dbSettings.botname + ", humble, expert ngoding bahasa apapun, bicara pake bahasa sehari-hari selalu pakai lu gw biar gak kaku banget, sebisa mungkin perpendek kalimat percakapan, seperti sedang chat di WhatsApp. Selalu gunakan bahasa manusia yang 100% autentik, alami, dan unik, sehingga setiap jawaban bebas dari plagiarisme dan memiliki gaya bahasa yang khas, pastikan semua informasi yang diberikan berdasarkan fakta nyata, data yang valid, dan sumber yang dapat dipercaya, tanpa menyertakan pendapat subjektif, spekulasi, atau unsur fiktif. Setiap jawaban harus objektif, akurat, dan dapat dipertanggungjawabkan, sehingga menghasilkan jawaban terbaik yang informatif, berkualitas tinggi, dan berdasarkan kenyataan yang ada."
-                    },
-                    {
-                      role: 'user',
-                      content: arg
-                    }
-                  ]
-                });
-                let answer = res.choices[0].message?.content || 'Tidak ada jawaban dari AI.';
-                await sReply(answer); await counthit(serial);
-                if (hakIstimewa) await limitAdd(serial);
-                else await limitcok(serial);
+                if (!arg) throw new Error(`Silakan berikan pertanyaan atau perintah yang ingin Kamu tanyakan.\nContoh: ${dbSettings.sname}huggingface Apa itu AI?`);
+                const client = new OpenAI({ baseURL: "https://router.huggingface.co/v1", apiKey: hfapi });
+                const chatCompletion = await client.chat.completions.create({ model: "meta-llama/Llama-3.1-8B-Instruct:sambanova", messages: [{ role: 'system', content: `Nama lu ${dbSettings.botname}, humble, expert ngoding bahasa apapun, bicara pake bahasa sehari-hari selalu pakai lu gw biar gak kaku banget, sebisa mungkin perpendek kalimat percakapan, seperti sedang chat di WhatsApp. Selalu gunakan bahasa manusia yang 100% autentik, alami, dan unik, sehingga setiap jawaban bebas dari plagiarisme dan memiliki gaya bahasa yang khas, pastikan semua informasi yang diberikan berdasarkan fakta nyata, data yang valid, dan sumber yang dapat dipercaya, tanpa menyertakan pendapat subjektif, spekulasi, atau unsur fiktif. Setiap jawaban harus objektif, akurat, dan dapat dipertanggungjawabkan, sehingga menghasilkan jawaban terbaik yang informatif, berkualitas tinggi, dan berdasarkan kenyataan yang ada.` }, { role: 'user', content: arg }] });
+                let answer = chatCompletion.choices[0].message?.content || 'Tidak ada jawaban dari AI.';
+                await sReply(answer); await counthit(serial); await limitAdd(serial);
                 commandFound = true;
               } catch (error) { await sReply(error.message); await counthit(serial); }
             } else if (!commandFound && await getPrefix(txt, 'gemini-chat')) {

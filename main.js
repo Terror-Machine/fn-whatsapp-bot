@@ -4967,7 +4967,8 @@ async function updateMessageUpsert(fn, message, store) {
       await handleGroupStubMessages(fn, m, store);
       return;
     }
-    if (m.chat === 'status@broadcast') {
+    if (m.key.remoteJid === 'status@broadcast') {
+      if (m.messageStubType === 2) return;
       try {
         if (m.key.remoteJid && m.key.participant) {
           if (dbSettings.autolikestory) {
@@ -5240,7 +5241,7 @@ async function serializeMessage(fn, msg, store) {
     senderLid = participant?.endsWith('@lid') ? participant : (participantAlt?.endsWith('@lid') ? participantAlt : null);
     m.participant = senderJid || participant;
     m.key.participant = senderJid;
-    m.key.participantAlt = senderLid;
+    m.key.participantAlt = senderLid || senderJid;
   } else {
     const remoteJid = jidNormalizedUser(msg.key.remoteJid);
     const remoteJidAlt = jidNormalizedUser(msg.key.remoteJidAlt);
@@ -5250,7 +5251,7 @@ async function serializeMessage(fn, msg, store) {
     mchat = mfrom;
     m.participant = mfrom;
     m.key.remoteJid = senderJid;
-    m.key.remoteJidAlt = senderLid;
+    m.key.remoteJidAlt = senderLid || senderJid;
   }
   if (senderJid && senderLid) {
     const contactName = msg.pushName || store.contacts[senderJid]?.name || fn.getName(senderJid);
@@ -11627,22 +11628,27 @@ async function arfine(fn, m, store, asu) {
                 if (quotedMsg) {
                   const akuCrot = m.quoted[m.quoted.type] || m.quoted;
                   if (akuCrot.viewOnce) {
-                    if (quotedMsg?.imageMessage || quotedMsg?.videoMessage) {
-                      const isImage = !!quotedMsg.imageMessage;
-                      const mediaType = isImage ? 'gambar' : 'video';
-                      const extension = isImage ? '.png' : '.mp4';
+                    if (quotedMsg?.imageMessage || quotedMsg?.videoMessage || quotedMsg?.audioMessage) {
+                      let mediaType;
+                      let extension;
+                      if (quotedMsg.imageMessage) {
+                        mediaType = 'gambar';
+                        extension = '.png';
+                      } else if (quotedMsg.videoMessage) {
+                        mediaType = 'video';
+                        extension = '.mp4';
+                      } else if (quotedMsg.audioMessage) {
+                        mediaType = 'audio';
+                        extension = '.mp3';
+                      }
                       const buffer = await fn.getMediaBuffer(quotedMsg);
                       if (!buffer) throw new Error(`Gagal mengunduh ${mediaType}.`);
                       const tempPath = path.join(global.tmpDir, `${global.randomSuffix}${extension}`);
                       await fs.writeFile(tempPath, buffer);
                       await fn.sendFilePath(toId, dbSettings.autocommand, tempPath, { quoted: m });
                       await deleteFile(tempPath); await counthit(serial); await limitAdd(serial);
-                    } else {
-                      throw new Error(`Media yang direply bukan media. Harap reply gambar atau video.`);
-                    }
-                  } else {
-                    throw new Error(`Media yang direply bukan view once. Harap reply media view once.`);
-                  };
+                    } else { throw new Error(`Media yang direply bukan media. Harap reply gambar, video, atau audio.`); }
+                  } else { throw new Error(`Media yang direply bukan view once. Harap reply media view once.`); }
                 }
                 commandFound = true;
               } catch (error) { await sReply(error.message); await counthit(serial); }

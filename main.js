@@ -5166,14 +5166,17 @@ async function serializeMessage(fn, msg, store) {
     if (m.isGroup) {
       delete key.remoteJidAlt;
     } else {
-      delete key.participant;
-      delete key.participantAlt;
+      if (key.remoteJid !== "status@broadcast") {
+        delete key.participant;
+        delete key.participantAlt;
+      }
     }
     m.key = key;
     m.fromMe = msg.key.fromMe;
     mfrom = msg.key.remoteJid.startsWith('status') ? jidNormalizedUser(msg.key.participant) : jidNormalizedUser(msg.key.remoteJid);
     mchat = msg.key.remoteJid;
   }
+  const isStatus = mchat === 'status@broadcast';
   if (msg.messageStubType) {
     m.messageStubType = msg.messageStubType;
     const rawParams = msg.messageStubParameters || [];
@@ -5216,7 +5219,21 @@ async function serializeMessage(fn, msg, store) {
   if (!msg || !msg.message) return null;
   m.message = unwrapMessage(msg.message);
   let senderJid, senderLid;
-  if (m.isGroup) {
+  if (isStatus) {
+    const p = msg.key.participant;
+    const pAlt = msg.key.remoteJidAlt;
+    const authorJid = p?.endsWith('@s.whatsapp.net') ? jidNormalizedUser(p) : (pAlt?.endsWith('@s.whatsapp.net') ? jidNormalizedUser(pAlt) : null);
+    const authorLid = p?.endsWith('@lid') ? p : (pAlt?.endsWith('@lid') ? pAlt : null);
+    m.participant = authorJid || authorLid;
+    mfrom = m.participant;
+    mchat = m.participant;
+    m.key.participant = authorJid;
+    m.key.participantAlt = authorLid;
+    if (authorJid && authorLid) {
+      senderJid = authorJid;
+      senderLid = authorLid;
+    }
+  } else if (m.isGroup) {
     const participant = jidNormalizedUser(msg.key.participant);
     const participantAlt = jidNormalizedUser(msg.key.participantAlt);
     senderJid = participant?.endsWith('@s.whatsapp.net') ? participant : (participantAlt?.endsWith('@s.whatsapp.net') ? participantAlt : null);

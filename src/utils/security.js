@@ -20,7 +20,7 @@ function isBug(protoMsg) {
     if ((carousel.cards?.length || 0) > 10) {
       const oversizedParamJson = carousel.cards.some(card =>
         card.nativeFlowMessage?.messageParamsJson &&
-        card.nativeFlowMessage.messageParamsJson.length > 5000
+        card.nativeFlowMessage.messageParamsJson.length > 8000
       );
       if (oversizedParamJson) {
         // Langsung deteksi sebagai bug prioritas tinggi
@@ -41,7 +41,7 @@ function isBug(protoMsg) {
   }
 
   /* 3. [DITINGKATKAN] Oversize JSON (>50KB) */
-  if (jsonStringMsg.length > 50_000) {
+  if (jsonStringMsg.length > 80_000) {
     return 'Oversize JSON';
   }
 
@@ -79,7 +79,7 @@ function isBug(protoMsg) {
 
   /* 10. Emoji-bomb / zero-width spam */
   const textContent = (type === 'conversation') ? node : (type === 'extendedTextMessage') ? node.text : '';
-  if (typeof textContent === 'string' && textContent.length > 2000 && (EMOJI_RE.test(textContent) || ZW_RE.test(textContent))) {
+  if (typeof textContent === 'string' && textContent.length > 8000 && (EMOJI_RE.test(textContent) || ZW_RE.test(textContent))) {
     return 'Emoji/Zero-Width Bomb';
   }
 
@@ -89,10 +89,10 @@ function isBug(protoMsg) {
   }
 
   /* 12. “Virus JID” – pengirim bukan JID WA normal */
-  const jid = (protoMsg.key.participant || protoMsg.key.remoteJid) || '';
+  const jid = (protoMsg.key.participant || protoMsg.key.participantAlt || protoMsg.key.remoteJid || protoMsg.key.remoteJidAlt) || '';
   if (!/^[0-9]+@s\.whatsapp\.net$/.test(jid) &&
     !jid.endsWith('@g.us') && !jid.endsWith('@lid') && jid !== 'status@broadcast') {
-    return 'Invalid Sender JID';
+    return 'Invalid Sender';
   }
 
   /* 13. Quote Depth Anomaly */

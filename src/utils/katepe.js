@@ -1,9 +1,10 @@
 const { createCanvas, loadImage, registerFont } = require('canvas');
 const fs = require('fs');
+const path = require('path');
 
 try {
-  registerFont('/root/fnbots/src/ktp/Ocr.ttf', { family: 'DataFont' });
-  registerFont('/root/fnbots/src/ktp/Sign.ttf', { family: 'SignatureFont' });
+  registerFont(path.join(__dirname, '../ktp/Ocr.ttf'), { family: 'DataFont' });
+  registerFont(path.join(__dirname, '../ktp/Sign.ttf'), { family: 'SignatureFont' });
 } catch (error) {
   console.error('Gagal mendaftarkan font:', error);
 }
@@ -70,7 +71,7 @@ async function generateCard(options = {}) {
     return null;
   }
   try {
-    const background = await loadImage('/root/fnbots/src/ktp/output.png');
+    const background = await loadImage(path.join(__dirname, '../ktp/output.png'));
     const profilePic = await loadImage(profilePicPath);
     const canvas = createCanvas(background.width, background.height);
     const ctx = canvas.getContext('2d');

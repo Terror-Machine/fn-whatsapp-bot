@@ -92,7 +92,7 @@ const { generateQuote, generateMeme, generateFakeStory, generateFakeTweet, gener
 const { QuoteGenerator, bratGenerator, bratVidGenerator, generateAnimatedBratVid, randomChoice } = require('qc-generator-whatsapp');
 const { default: HyHy, generateWAMessage, useMultiFileAuthState, jidNormalizedUser, extractMessageContent, generateWAMessageFromContent,
   downloadContentFromMessage, jidDecode, jidEncode, getDevice, areJidsSameUser, Browsers, makeCacheableSignalKeyStore, WAMessageStubType,
-  getBinaryNodeChildString, getBinaryNodeChildren, getBinaryNodeChild, isJidBroadcast, fetchLatestBaileysVersion, proto
+  getBinaryNodeChildString, getBinaryNodeChildren, getBinaryNodeChild, isJidBroadcast, fetchLatestBaileysVersion, proto, isLidUser
 } = require("baileys");
 
 registerFont('./src/fonts/Noto-Bold.ttf', { family: 'Noto', weight: 'bold' });
@@ -4932,6 +4932,25 @@ async function clientBot(fn, store) {
     }
     return album;
   };
+  const originalOnWhatsApp = fn.onWhatsApp.bind(fn);
+  fn.onWhatsApp = async (ids) => {
+    if (!ids) return [{ jid: ids, exists: false, lid: null }];
+    const officialResults = await originalOnWhatsApp(ids);
+    const primaryResult = (officialResults && officialResults.length > 0) ? officialResults[0] : null;
+    if (primaryResult && primaryResult.exists) return [{ jid: primaryResult.jid, exists: true, lid: primaryResult.lid || null }];
+    let contact = null;
+    if (isLidUser(ids)) {
+      const lidToContactMap = Object.values(store.contacts || {}).reduce((map, currentContact) => {
+        if (currentContact.lid) {
+          map[currentContact.lid] = currentContact;
+        }
+        return map;
+      }, {});
+      contact = lidToContactMap[ids];
+    }
+    if (contact) return [{ jid: contact.id, exists: true, lid: contact.lid }];
+    return [];
+  };
   return fn
 };
 async function updateMessageUpsert(fn, message, store) {
@@ -5449,7 +5468,9 @@ async function starts() {
     fireInitQueries: true,
     generateHighQualityLinkPreview: true,
     shouldIgnoreJid: (jid) => { return isJidBroadcast(jid) && jid !== 'status@broadcast'; },
-    appStateMacVerification: { patch: true, snapshot: true }
+    appStateMacVerification: { patch: true, snapshot: true },
+    enableAutoSessionRecreation: true,
+	  enableRecentMessageCache: true
   });
 
   if (pairingCode && !phoneNumber && !fn.authState.creds.registered) {

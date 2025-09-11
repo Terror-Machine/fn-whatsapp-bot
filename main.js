@@ -5470,7 +5470,7 @@ async function starts() {
     shouldIgnoreJid: (jid) => { return isJidBroadcast(jid) && jid !== 'status@broadcast'; },
     appStateMacVerification: { patch: true, snapshot: true },
     enableAutoSessionRecreation: true,
-	  enableRecentMessageCache: true
+    enableRecentMessageCache: true
   });
 
   if (pairingCode && !phoneNumber && !fn.authState.creds.registered) {

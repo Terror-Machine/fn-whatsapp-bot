@@ -81,13 +81,7 @@ chmod +x install.sh
 ./install.sh
 ```
 
-### **2. Install Dependensi JavaScript**
-Selalu gunakan `--legacy-peer-deps` untuk menghindari error yang tidak diinginkan:
-```bash
-npm install baileys --legacy-peer-deps
-```
-
-### **3. Setup Environment**
+### **2. Setup Environment**
 1. Salin template environment:
 ```bash
 cp .env.example .env
@@ -155,8 +149,8 @@ Proyek ini menggunakan lisensi [MIT](LICENSE).
 3. **Error Playwright**:
    Jalankan:
    ```bash
-   npx playwright install
    npx playwright install-deps
+   npx playwright install
    ```
 
 ---

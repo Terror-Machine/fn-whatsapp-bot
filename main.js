@@ -1,15 +1,41 @@
 require('dotenv').config();
-const logTime = () => new Date().toLocaleTimeString('id-ID');
-async function log(message, error = false) {
-  if (error) {
-    console.error('📝', logTime(), message);
-    console.trace();
-  } else {
-    console.log('📝', logTime(), message);
-  }
-};
+
 const util = require('util');
 const process = require('process');
+
+const logTime         = () => new Date().toLocaleTimeString('id-ID');
+const originalLog     = console.log.bind(console);
+const originalError   = console.error.bind(console);
+const blockedKeywords = [
+  "Closing session:",
+  "Closing open session in favor of incoming prekey bundle",
+  "Decrypted message with closed session.",
+  "Failed to decrypt message with any known session...",
+  "Migrating session to:",
+  "Opening session:",
+  "Removing old closed session:",
+  "Session already closed",
+  "Session already open",
+  "V1 session storage migration error:"
+];
+
+async function log(message, error = false) {
+  const text = typeof message === 'string' ? message : util.inspect(message, { depth: 1 });
+  if (blockedKeywords.some(keyword => text.includes(keyword))) return;
+  if (error) {
+    originalError('📝', logTime(), text);
+    const stack = new Error().stack?.split('\n').slice(2).join('\n');
+    if (stack) process.stderr.write(stack + '\n');
+  } else {
+    originalLog('📝', logTime(), text);
+  }
+};
+
+console.log = (...args) => log(args.map(a => util.inspect(a, { depth: 1 })).join(' '));
+console.info = (...args) => log(args.map(a => util.inspect(a, { depth: 1 })).join(' '));
+console.warn = (...args) => log(args.map(a => util.inspect(a, { depth: 1 })).join(' '), true);
+console.error = (...args) => log(args.map(a => util.inspect(a, { depth: 1 })).join(' '), true);
+
 const spawn = require('child_process').spawn;
 const exec = util.promisify(require('child_process').exec);
 const isPm2 = process.env.pm_id !== undefined || process.env.NODE_APP_INSTANCE !== undefined;
@@ -92,7 +118,7 @@ const { generateQuote, generateMeme, generateFakeStory, generateFakeTweet, gener
 const { QuoteGenerator, bratGenerator, bratVidGenerator, generateAnimatedBratVid, randomChoice } = require('qc-generator-whatsapp');
 const { default: HyHy, generateWAMessage, useMultiFileAuthState, jidNormalizedUser, extractMessageContent, generateWAMessageFromContent,
   downloadContentFromMessage, jidDecode, jidEncode, getDevice, areJidsSameUser, Browsers, makeCacheableSignalKeyStore, WAMessageStubType,
-  getBinaryNodeChildString, getBinaryNodeChildren, getBinaryNodeChild, isJidBroadcast, fetchLatestBaileysVersion, proto, isLidUser
+  getBinaryNodeChildString, getBinaryNodeChildren, getBinaryNodeChild, isJidBroadcast, fetchLatestBaileysVersion, proto, isLidUser, delay
 } = require("baileys");
 
 registerFont('./src/fonts/Noto-Bold.ttf', { family: 'Noto', weight: 'bold' });
@@ -1188,9 +1214,6 @@ function formatTimestampToHourMinute(ts) {
   let minutes = date.getMinutes().toString().padStart(2, '0');
   return `${hours}.${minutes}`;
 };
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-};
 function firstUpperCase(text, split = ' ') {
   return text.split(split).map(word => `${word.charAt(0).toUpperCase()}${word.slice(1)}`).join(' ');
 };
@@ -1491,7 +1514,7 @@ async function sendAndCleanupFile(fn, toId, localPath, m) {
 };
 async function loop(start, end, step, callback) {
   for (let i = start; i <= end; i += step) {
-    await callback(i); await sleep(200)
+    await callback(i); await delay(200)
   }
 };
 async function saveFile(imageInput, prefix, toFile = "png") {
@@ -1640,7 +1663,7 @@ async function generateFakeChatWithQCGenerator(m, count, fn, store) {
     const messages = [];
     const tempAvatars = [];
     for (let i = 0; i < selectedChats.length; i++) {
-      await sleep(1000);
+      await delay(1000);
       const msg = selectedChats[i];
       const senderJid = msg.sender;
       const senderName = store.conversations[senderJid]?.name || fn.getName(senderJid) || "Mukidi Slamet";
@@ -2740,7 +2763,7 @@ async function sendImages(fn, result, args, toId, m, baseCaption) {
     for (const [index, chunk] of chunks.entries()) {
       await fn.sendAlbum(toId, chunk, { quoted: m });
       if (chunks.length > 1 && index < chunks.length - 1) {
-        await sleep(1000);
+        await delay(1000);
       }
     }
   }
@@ -2907,7 +2930,7 @@ async function runBotLudoTurns(toId, m, fn) {
   if (!gameState || gameState.status !== 'BOTS_TURN') return;
   const botColor = gameState.players[gameState.turn];
   if (botColor === 'RED') return;
-  await sleep(2500);
+  await delay(2500);
   const roll = rollDice();
   let moveText = `🤖 Giliran Bot *${botColor}*...\n` + `Bot melempar dadu dan mendapat angka *${roll}*.\n`;
   const currentPos = gameState.pawnPositions[botColor];
@@ -3294,7 +3317,7 @@ async function runBotUlarTanggaTurn(toId, m, fn) {
   if (gameState.botDoublesCount === undefined) {
     gameState.botDoublesCount = 0;
   }
-  await sleep(1500);
+  await delay(1500);
   const dice1 = Math.floor(Math.random() * 6) + 1;
   const dice2 = Math.floor(Math.random() * 6) + 1;
   const totalMove = dice1 + dice2;
@@ -3341,7 +3364,7 @@ async function runBotUlarTanggaTurnV2(toId, m, fn) {
   const sPesan = (text) => fn.sendPesan(toId, text, m);
   const gameState = ulartangga[toId];
   if (!gameState) return;
-  await sleep(2000);
+  await delay(2000);
   const roll = rollDice();
   const oldPos = gameState.botPos;
   gameState.botPos += roll;
@@ -3545,7 +3568,7 @@ async function runBotSamgongTurn(toId, m, fn) {
   let botTurnText = `Kartu awal Bandar adalah [ ${gameState.botHand.map(c => c.display).join(' | ')} ], ` +
     `Total nilai: *${calculateSamgongValue(gameState.botHand)}*.`;
   await fn.sendReply(toId, botTurnText, m);
-  await sleep(2000);
+  await delay(2000);
   while (calculateSamgongValue(gameState.botHand) <= 25) {
     const newCard = gameState.deck.shift();
     if (!newCard) break;
@@ -3553,7 +3576,7 @@ async function runBotSamgongTurn(toId, m, fn) {
     botTurnText = `Bandar mengambil kartu... [ ${newCard.display} ].\n` +
       `Total nilai sekarang: *${calculateSamgongValue(gameState.botHand)}*`;
     await fn.sendReply(toId, botTurnText, m);
-    await sleep(2000);
+    await delay(2000);
   }
   const botScore = calculateSamgongValue(gameState.botHand);
   const playerScore = calculateSamgongValue(gameState.playerHand);
@@ -4119,7 +4142,7 @@ async function handleRestart(reason) {
   }
   await log(`Terjadi error: ${reason}`);
   await log(`Mencoba restart otomatis #${nextAttempt} dalam ${RECONNECT_DELAY_MS / 1000}s...`);
-  await sleep(RECONNECT_DELAY_MS);
+  await delay(RECONNECT_DELAY_MS);
   if (isPm2) {
     await log(`Dijalankan via PM2 → menyerahkan restart ke PM2`);
     process.exit(1);
@@ -5041,7 +5064,7 @@ async function updateMessageUpsert(fn, message, store) {
     await log(`Error updateMessageUpsert:\n\n${globalError}`);
     if (globalError.message?.includes('rate-overlimit')) {
       await log(`Terkena rate limit, menunggu 5 detik...`);
-      await sleep(5000);
+      await delay(5000);
     }
     if (globalError.message?.includes('No matching sessions') ||
       globalError.message?.includes('Bad MAC')) {
@@ -5486,9 +5509,9 @@ async function starts() {
         dbSettings.botNumber = cleanedNumber;
         await dumpSet();
         isValid = true;
-        console.log('Phone number valid, continuing...\ntunggu sampai kodenya muncul. agak lama. tungguin aja..');
+        await log('Phone number valid, continuing...\ntunggu sampai kodenya muncul. agak lama. tungguin aja..');
       } else {
-        console.log('Invalid number. Start with your country code and make sure it is correct, Example: 628123456789');
+        await log('Invalid number. Start with your country code and make sure it is correct, Example: 628123456789');
         numberToValidate = null;
       }
     }
@@ -5505,10 +5528,10 @@ async function starts() {
       if ((connection === 'connecting' || !!qr) && pairingCode && phoneNumber && !fn.authState.creds.registered && !pairingStarted) {
         setTimeout(async () => {
           pairingStarted = true;
-          console.log('Requesting Pairing Code...')
+          await log('Requesting Pairing Code...')
           let code = await fn.requestPairingCode(phoneNumber);
           code = code?.match(/.{1,4}/g)?.join('-') || code;
-          console.log('Your Pairing Code :', code);
+          await log(`Your Pairing Code : ${code}`);
         }, 3000);
       }
       if (connection === 'open') {
@@ -5543,8 +5566,14 @@ async function starts() {
       }
       if (isNewLogin) await log(`New device detected, session restarted!`);
       if (qr) {
-        if (!pairingCode) qrcode.generate(qr, { small: true });
-      };
+        if (!pairingCode) {
+          log('Scan QR berikut:');
+          qrcode.generate(qr, { small: true }, (qrcodeString) => {
+            const qrStr = String(qrcodeString);
+            log(`\n${qrStr}`);
+          });
+        }
+      }
     } catch (error) {
       await log(`Error connection.update:\n${error}`, true);
     }
@@ -5743,8 +5772,8 @@ async function arfine(fn, m, store, asu) {
   const body = m?.body;
   const type = m?.type;
 
-  const reactDone = async () => { await sleep(1000); await fn.sendMessage(toId, { react: { text: '✅', key: m.key } }) };
-  const reactFail = async () => { await sleep(1000); await fn.sendMessage(toId, { react: { text: '❎', key: m.key } }) };
+  const reactDone = async () => { await delay(1000); await fn.sendMessage(toId, { react: { text: '✅', key: m.key } }) };
+  const reactFail = async () => { await delay(1000); await fn.sendMessage(toId, { react: { text: '❎', key: m.key } }) };
   const sendRawWebpAsSticker = async (_data, options = {}) => { await fn.sendRawWebpAsSticker(toId, _data, m, { ...options }) };
   const sReply = (content, options = {}) => fn.sendReply(toId, content, { quoted: m, ...options });
   const sPesan = (content) => fn.sendPesan(toId, content, m);
@@ -5973,7 +6002,7 @@ async function arfine(fn, m, store, asu) {
     dbSettings.restartState = true;
     dbSettings.restartId = a;
     dbSettings.dataM = b;
-    await dumpSet(); await sleep(1000); await fn.sendMessage(a, { react: { text: '✅', key: b.key } }); await handleRestart("Restarting...")
+    await dumpSet(); await delay(1000); await fn.sendMessage(a, { react: { text: '✅', key: b.key } }); await handleRestart("Restarting...")
   };
   async function commandMenu({
     levela, isSadmin, master, vip, premium, isGroupAdmins,
@@ -6400,7 +6429,7 @@ async function arfine(fn, m, store, asu) {
                   let _pesan = args.slice(1).join(' ');
                   for (let i = 0; i < _num; i++) {
                     await sPesan(_pesan);
-                    await sleep(500);
+                    await delay(500);
                   }
                   await counthit(serial);
                   commandFound = true;
@@ -7221,14 +7250,14 @@ async function arfine(fn, m, store, asu) {
                   if (idGroup === toId) continue;
                   try {
                     await fn.sendPesan(idGroup, `Jika ingin bot tetap stay di group, admin silakan hubungi creator atau owner`, m);
-                    await sleep(1000);
+                    await delay(1000);
                     await fn.groupLeave(idGroup);
                     delete store.conversations[idGroup];
                     delete store.groupMetadata[idGroup];
                     delete store.messages[idGroup];
                     delete store.presences[idGroup];
                     storeDirty = true;
-                    await sleep(2000);
+                    await delay(2000);
                   } catch (error) {
                     await log(`Gagal keluar dari grup ${idGroup}:\n${error}`, true);
                   }
@@ -7345,7 +7374,7 @@ async function arfine(fn, m, store, asu) {
                     } else {
                       await fn.sendPesan(idGroup, messageContent, m);
                     }
-                    await sleep(1000);
+                    await delay(1000);
                   }
                   await sReply(`Broadcast [Mode: ${broadcastMode}] berhasil dikirim ke ${targetGroups.length} grup.`);
                   await counthit(serial);
@@ -7646,7 +7675,7 @@ async function arfine(fn, m, store, asu) {
                         storeDirty = true;
                       }
                     }
-                    await sleep(1500);
+                    await delay(1500);
                   }
                   await counthit(serial);
                   commandFound = true;
@@ -7910,7 +7939,7 @@ async function arfine(fn, m, store, asu) {
                     try {
                       if (farewellText) {
                         await fn.sendPesan(idGroup, farewellText, m);
-                        await sleep(1000);
+                        await delay(1000);
                       }
                       await fn.groupLeave(idGroup);
                       delete store.conversations[idGroup];
@@ -7919,7 +7948,7 @@ async function arfine(fn, m, store, asu) {
                       delete store.presences[idGroup];
                       storeDirty = true;
                       leftCount++;
-                      await sleep(2000);
+                      await delay(2000);
                     } catch (error) {
                       failedCount++;
                       await log(`Gagal keluar dari grup ${idGroup}:\n${error}`, true);
@@ -8670,7 +8699,7 @@ async function arfine(fn, m, store, asu) {
                     try {
                       await fn.removeParticipant(toId, member);
                       removed++;
-                      await sleep(1500);
+                      await delay(1500);
                     } catch (error) {
                       await log(`Error_kick ${member}:\n${error}`, true);
                     }
@@ -9993,7 +10022,7 @@ async function arfine(fn, m, store, asu) {
                     for (const [index, chunk] of chunks.entries()) {
                       await fn.sendAlbum(toId, chunk, { quoted: m });
                       if (chunks.length > 1 && index < chunks.length - 1) {
-                        await sleep(1000);
+                        await delay(1000);
                       }
                     }
                   }
@@ -10029,7 +10058,7 @@ async function arfine(fn, m, store, asu) {
                     for (const [index, chunk] of chunks.entries()) {
                       await fn.sendAlbum(toId, chunk, { quoted: m });
                       if (chunks.length > 1 && index < chunks.length - 1) {
-                        await sleep(1000);
+                        await delay(1000);
                       }
                     }
                   }
@@ -10276,7 +10305,7 @@ async function arfine(fn, m, store, asu) {
                 }
                 if (!/^https?:\/\/open\.spotify\.com\/track\/[a-zA-Z0-9]+/i.test(input)) throw new Error(`URL TIDAK VALID!\nContoh: ${dbSettings.rname}spotifydl https://open.spotify.com/track/...`);
                 const result = await spotify.downloadTrackOrCollection(input, global.tmpDir);
-                await sleep(2000);
+                await delay(2000);
                 if (Array.isArray(result)) {
                   for (const filePath of result) {
                     await fn.sendFilePath(toId, dbSettings.autocommand, filePath, { quoted: m });
@@ -10322,7 +10351,7 @@ async function arfine(fn, m, store, asu) {
                 const searchResults = await spotify.search(query);
                 if (searchResults.length === 0) throw new Error(`Lagu dengan kata kunci "${query}" tidak ditemukan.`);
                 const result = await spotify.downloadTrackOrCollection(searchResults[0].link, global.tmpDir);
-                await sleep(2000);
+                await delay(2000);
                 if (Array.isArray(result)) {
                   for (const filePath of result) {
                     await fn.sendFilePath(toId, dbSettings.autocommand, filePath, { quoted: m });
@@ -13429,7 +13458,7 @@ async function arfine(fn, m, store, asu) {
                     rollResult.push(slotSymbols[rand]);
                     if (i % 1 === 0 || i === config.count - 1) {
                       await fn.sendReply(toId, display + rollResult.join(' '), { edit: key });
-                      await sleep(500);
+                      await delay(500);
                     }
                   }
                   const counts = {};
@@ -13458,7 +13487,7 @@ async function arfine(fn, m, store, asu) {
                     }
                   }
                   finalText += `💰 Saldo akhir: ${formatNumber(saldoAkhir)}`;
-                  await sleep(1500); fn.sendReply(toId, finalText, { edit: key });
+                  await delay(1500); fn.sendReply(toId, finalText, { edit: key });
                   await addXp(fn, toId, serial, m); await counthit(serial); await limitAddGame(serial);
                   commandFound = true;
                 } catch (error) {
@@ -13656,7 +13685,7 @@ async function arfine(fn, m, store, asu) {
                   hasil += `Tangan Bot: ${formatDominoHand(botHand)} (Nilai: *${botValue}*)\n\n`;
                   hasil += `${winText}\n\n`;
                   hasil += `💰 Saldo Akhir: ${formatNumber(saldoAkhir)}`;
-                  await sleep(1000);
+                  await delay(1000);
                   await fn.sendReply(toId, hasil, { edit: key }); await limitAddGame(serial);
                   await addXp(fn, toId, serial, m); await counthit(serial);
                   commandFound = true;
@@ -13810,7 +13839,7 @@ async function arfine(fn, m, store, asu) {
                     hasil += `💸 Kamu kehilangan: -${formatNumber(bid)}\n`;
                   }
                   hasil += `\n💰 Saldo Akhir: ${formatNumber(saldoAkhir)}`;
-                  await sleep(1000);
+                  await delay(1000);
                   await fn.sendReply(toId, hasil, { edit: key }); await limitAddGame(serial);
                   await addXp(fn, toId, serial, m); await counthit(serial);
                   commandFound = true;
@@ -13951,7 +13980,7 @@ async function arfine(fn, m, store, asu) {
                   await addBal(serial, selisih);
                   const saldoAkhir = saldoAwal + selisih;
                   hasil += `\n💰 Saldo Akhir: ${formatNumber(saldoAkhir)}`;
-                  await sleep(1000);
+                  await delay(1000);
                   await fn.sendReply(toId, hasil, { edit: key }); await limitAddGame(serial);
                   await addXp(fn, toId, serial, m); await counthit(serial);
                   commandFound = true;
@@ -14108,7 +14137,7 @@ async function arfine(fn, m, store, asu) {
                   await addBal(serial, selisih);
                   const saldoAkhir = saldoAwal + selisih;
                   hasil += `\n💰 Saldo Akhir: ${formatNumber(saldoAkhir)}`;
-                  await sleep(1000);
+                  await delay(1000);
                   await fn.sendReply(toId, hasil, { edit: key }); await limitAddGame(serial);
                   await addXp(fn, toId, serial, m); await counthit(serial);
                   commandFound = true;
@@ -14207,7 +14236,7 @@ async function arfine(fn, m, store, asu) {
                     hasil += `Kerugian: -${formatNumber(bid)}\n`;
                   }
                   hasil += `\n💰 Saldo Akhir: ${formatNumber(saldoAkhir)}`;
-                  await sleep(1000);
+                  await delay(1000);
                   await fn.sendReply(toId, hasil, { edit: key }); await limitAddGame(serial);
                   await addXp(fn, toId, serial, m); await counthit(serial);
                   commandFound = true;
@@ -14267,12 +14296,12 @@ async function arfine(fn, m, store, asu) {
                   while (undian.size < 5) undian.add(Math.floor(Math.random() * 69) + 1);
                   const powerballUndian = Math.floor(Math.random() * 26) + 1;
                   const hasilUndian = [...undian].sort((a, b) => a - b);
-                  await sleep(500);
+                  await delay(500);
                   let hasilMsg = `Sedang mengundi angka...\n\n`;
                   for (let i = 0; i < 5; i++) {
                     hasilMsg += hasilUndian[i] + ' ';
                     await fn.sendReply(toId, hasilMsg, { edit: key });
-                    await sleep(500);
+                    await delay(500);
                   }
                   hasilMsg += '- PB: ' + powerballUndian; await fn.sendReply(toId, hasilMsg, { edit: key });
                   let totalMenang = 0n;
@@ -14308,7 +14337,7 @@ async function arfine(fn, m, store, asu) {
                     final += `\n❌ Kerugian Bersih: ${formatNumber(netResult)}`;
                   }
                   final += `\n💰 Saldo Akhir: ${formatNumber(saldoAwal + netResult)}`;
-                  await sleep(1000);
+                  await delay(1000);
                   await fn.sendReply(toId, final, { edit: key }); await limitAddGame(serial);
                   await addXp(fn, toId, serial, m); await counthit(serial);
                   commandFound = true;
@@ -14541,7 +14570,7 @@ async function arfine(fn, m, store, asu) {
                   }
                   const saldoAkhir = saldoAwal + selisih;
                   log += `\n💰 Saldo Akhir: ${formatNumber(saldoAkhir)}`;
-                  await sleep(1000); fn.sendReply(toId, `🃏 *BLACKJACK* 🃏\n\nTaruhan: ${formatNumber(bid)}\n${log}`, { edit: key });
+                  await delay(1000); fn.sendReply(toId, `🃏 *BLACKJACK* 🃏\n\nTaruhan: ${formatNumber(bid)}\n${log}`, { edit: key });
                   await addXp(fn, toId, serial, m); await counthit(serial); await limitAddGame(serial);
                   commandFound = true;
                 } catch (error) {
@@ -14623,7 +14652,7 @@ async function arfine(fn, m, store, asu) {
                   }
                   hasil += bonusText;
                   hasil += `\n\n💰 Saldo Akhir: ${formatNumber(saldoAkhir)}`;
-                  await sleep(1000); fn.sendReply(toId, hasil, { edit: key });
+                  await delay(1000); fn.sendReply(toId, hasil, { edit: key });
                   await addXp(fn, toId, serial, m); await counthit(serial); await limitAddGame(serial);
                   commandFound = true;
                 } catch (error) {
@@ -14691,7 +14720,7 @@ async function arfine(fn, m, store, asu) {
                     return display;
                   };
                   let { key } = await sReply(`Taruhan ${formatNumber(bid)} pada *${chosenHorse.name}* diterima.\n\n${generateTrackDisplay(horses)}`);
-                  await sleep(2000);
+                  await delay(2000);
                   let winner = null;
                   while (!winner) {
                     for (let horse of horses) {
@@ -14705,7 +14734,7 @@ async function arfine(fn, m, store, asu) {
                     }
                     horses.sort((a, b) => b.progress - a.progress);
                     await fn.sendReply(toId, generateTrackDisplay(horses), { edit: key });
-                    await sleep(1000);
+                    await delay(1000);
                   }
                   const menang = winner.id === chosenHorse.id;
                   const payoutMultiplier = 5n;
@@ -14726,7 +14755,7 @@ async function arfine(fn, m, store, asu) {
                     hasilFinal += `Kerugian: -${formatNumber(bid)}\n`;
                   }
                   hasilFinal += `\n💰 Saldo Akhir: ${formatNumber(saldoAkhir)}`;
-                  await sleep(1000); fn.sendReply(toId, hasilFinal, { edit: key });
+                  await delay(1000); fn.sendReply(toId, hasilFinal, { edit: key });
                   await addXp(fn, toId, serial, m); await counthit(serial); await limitAddGame(serial);
                   commandFound = true;
                 } catch (error) {
@@ -14832,7 +14861,7 @@ async function arfine(fn, m, store, asu) {
                     finalLayerIndex = i;
                     const layer = layers[i];
                     await fn.sendReply(toId, generateMineDisplay(i, targetLayerIndex, 'digging') + eventLog, { edit: key });
-                    await sleep(2500);
+                    await delay(2500);
                     if (Math.random() < layer.collapseChance) {
                       expeditionFailed = true;
                       eventLog += `💥 BENCANA di ${layer.depth}m! Tambang runtuh!\n`;
@@ -14851,7 +14880,7 @@ async function arfine(fn, m, store, asu) {
                   }
                   if (!expeditionFailed) {
                     await fn.sendReply(toId, generateMineDisplay(targetLayerIndex, targetLayerIndex, 'success') + eventLog, { edit: key });
-                    await sleep(1000);
+                    await delay(1000);
                   }
                   let selisih;
                   if (expeditionFailed) {
@@ -14879,7 +14908,7 @@ async function arfine(fn, m, store, asu) {
                   }
                   finalMessage += `*Hasil Bersih: ${selisih >= 0n ? 'Untung +' : 'Rugi '}${formatNumber(selisih > 0n ? selisih : -selisih)}*\n`;
                   finalMessage += `\n💰 Saldo Akhir: ${formatNumber(saldoAkhir)}`;
-                  await sleep(500); fn.sendReply(toId, finalMessage, { edit: key });
+                  await delay(500); fn.sendReply(toId, finalMessage, { edit: key });
                   await addXp(fn, toId, serial, m); await counthit(serial); await limitAddGame(serial);
                   commandFound = true;
                 } catch (error) {
@@ -16272,7 +16301,7 @@ async function arfine(fn, m, store, asu) {
                 await fs.ensureDir(outputDir);
                 await fs.ensureDir(tmpDir);
                 await exec(`./venv/bin/sticker-convert --download-line "${lineUrl}" --no-confirm --no-progress --no-compress --input-dir "${inputDir}"`);
-                await sleep(2000);
+                await delay(2000);
                 const files = await fs.readdir(inputDir);
                 const pngFiles = files.filter(f => f.endsWith('.png'));
                 if (!pngFiles.length) throw new Error('❌ Tidak ada file stiker ditemukan.');
@@ -16306,7 +16335,7 @@ async function arfine(fn, m, store, asu) {
                 await fs.ensureDir(inputDir);
                 await fs.ensureDir(tmpDir);
                 await exec(`./venv/bin/sticker-convert --download-telegram "${telegramUrl}" --telegram-token "${process.env.TELE_TOKEN}" --telegram-userid "${process.env.TELE_USERID}" --no-confirm --no-progress --no-compress --input-dir "${inputDir}"`);
-                await sleep(2000);
+                await delay(2000);
                 const files = await fs.readdir(inputDir);
                 const webpFiles = files.filter(f => f.endsWith('.webp'));
                 if (!webpFiles.length) throw new Error('❌ Tidak ada file stiker ditemukan.');
@@ -16745,13 +16774,11 @@ async function arfine(fn, m, store, asu) {
           if (commandFound) {
             const msgPreview = msgs(aa);
             if (msgPreview === undefined) continue;
-            if (isSadmin) {
-              console.log('📝', logTime(), color(msgPreview, "#32CD32"), color('from', "#a8dffb"), color(pushname, '#FFA500'), ...(m.isGroup ? [color('in', '#a8dffb'), color(m.metadata?.subject, "#00FFFF")] : []));
-            } else {
-              console.log('📝', logTime(), color(msgPreview, "#32CD32"), color('from', "#a8dffb"), color(pushname, '#FFA500'), ...(m.isGroup ? [color('in', '#a8dffb'), color(m.metadata?.subject, "#00FFFF")] : []));
-            }
+            const parts = [color(msgPreview, "#32CD32"), color('from', "#a8dffb"), color(pushname, '#FFA500'), ...(m.isGroup ? [color('in', '#a8dffb'), color(m.metadata?.subject, "#00FFFF")] : [])];
+            const formatted = parts.join(' ');
+            log(formatted);
           }
-          await sleep(500);
+          await delay(500);
         }
         return failedCommands;
       }
@@ -17030,7 +17057,7 @@ async function arfine(fn, m, store, asu) {
                       for (const [index, chunk] of chunks.entries()) {
                         await fn.sendAlbum(toId, chunk, { quoted: m });
                         if (chunks.length > 1 && index < chunks.length - 1) {
-                          await sleep(1000);
+                          await delay(1000);
                         }
                       }
                     }
@@ -17050,7 +17077,7 @@ async function arfine(fn, m, store, asu) {
                       for (const [index, chunk] of chunks.entries()) {
                         await fn.sendAlbum(toId, chunk, { quoted: m });
                         if (chunks.length > 1 && index < chunks.length - 1) {
-                          await sleep(1000);
+                          await delay(1000);
                         }
                       }
                     }
@@ -17162,7 +17189,7 @@ async function arfine(fn, m, store, asu) {
               if (urlMatch) {
                 const url = urlMatch[0];
                 const result = await spotify.downloadTrackOrCollection(url, global.tmpDir);
-                await sleep(2000);
+                await delay(2000);
                 if (Array.isArray(result)) {
                   for (const filePath of result) {
                     await fn.sendFilePath(toId, dbSettings.autocommand, filePath, { quoted: m });
@@ -17422,7 +17449,7 @@ async function arfine(fn, m, store, asu) {
           await addXp(fn, toId, serial, m); await counthit(serial);
           return;
         }
-        await sleep(1000);
+        await delay(1000);
         const possibleMoves = gameState.game.moves({ verbose: true });
         const pieceValues = { p: 1, n: 3, b: 3, r: 5, q: 9 };
         let bestMove = null;
@@ -17824,7 +17851,7 @@ async function arfine(fn, m, store, asu) {
         return;
       }
       await sReply("Langkah Kamu diterima. Bot sedang berpikir...");
-      await sleep(1000);
+      await delay(1000);
       let botMove = null;
       for (let symbol of [gameState.botSymbol, gameState.playerSymbol]) {
         if (botMove) break;

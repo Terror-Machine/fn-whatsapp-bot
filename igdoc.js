@@ -3,7 +3,7 @@ const { instagramGetIds } = require('./src/utils/igdocs');
 async function main() {
   const args = process.argv.slice(2);
   if (args.length === 0) {
-    console.log('Penggunaan: node b.js <URL Instagram>');
+    console.log('Penggunaan: node igdocs.js <URL Instagram>');
     process.exit(1);
   }
   const url = args[0];

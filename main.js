@@ -7,16 +7,18 @@ const logTime         = () => new Date().toLocaleTimeString('id-ID');
 const originalLog     = console.log.bind(console);
 const originalError   = console.error.bind(console);
 const blockedKeywords = [
-  "Closing session:",
+  "WARNING: Expected pubkey of length 33, please report the ST and client that generated the pubkey",
+  "Unhandled bucket type (for naming):",
+  "Closing stale open session for new outgoing prekey bundle",
   "Closing open session in favor of incoming prekey bundle",
-  "Decrypted message with closed session.",
   "Failed to decrypt message with any known session...",
+  "Session error:",
+  "Decrypted message with closed session.",
+  "V1 session storage migration error: registrationId",
   "Migrating session to:",
-  "Opening session:",
-  "Removing old closed session:",
   "Session already closed",
   "Session already open",
-  "V1 session storage migration error:"
+  "Removing old closed session:"
 ];
 
 async function log(message, error = false) {

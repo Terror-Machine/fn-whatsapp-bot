@@ -7,16 +7,18 @@ const logTime         = () => new Date().toLocaleTimeString('id-ID');
 const originalLog     = console.log.bind(console);
 const originalError   = console.error.bind(console);
 const blockedKeywords = [
-  "Closing session:",
+  "WARNING: Expected pubkey of length 33, please report the ST and client that generated the pubkey",
+  "Unhandled bucket type (for naming):",
+  "Closing stale open session for new outgoing prekey bundle",
   "Closing open session in favor of incoming prekey bundle",
-  "Decrypted message with closed session.",
   "Failed to decrypt message with any known session...",
+  "Session error:",
+  "Decrypted message with closed session.",
+  "V1 session storage migration error: registrationId",
   "Migrating session to:",
-  "Opening session:",
-  "Removing old closed session:",
   "Session already closed",
   "Session already open",
-  "V1 session storage migration error:"
+  "Removing old closed session:"
 ];
 
 async function log(message, error = false) {
@@ -118,7 +120,7 @@ const { generateQuote, generateMeme, generateFakeStory, generateFakeTweet, gener
 const { QuoteGenerator, bratGenerator, bratVidGenerator, generateAnimatedBratVid, randomChoice } = require('qc-generator-whatsapp');
 const { default: HyHy, generateWAMessage, useMultiFileAuthState, jidNormalizedUser, extractMessageContent, generateWAMessageFromContent,
   downloadContentFromMessage, jidDecode, jidEncode, getDevice, areJidsSameUser, Browsers, makeCacheableSignalKeyStore, WAMessageStubType,
-  getBinaryNodeChildString, getBinaryNodeChildren, getBinaryNodeChild, isJidBroadcast, fetchLatestBaileysVersion, proto, isLidUser, delay
+  getBinaryNodeChildString, getBinaryNodeChildren, getBinaryNodeChild, isJidBroadcast, fetchLatestBaileysVersion, proto, isLidUser
 } = require("baileys");
 
 registerFont('./src/fonts/Noto-Bold.ttf', { family: 'Noto', weight: 'bold' });
@@ -326,6 +328,9 @@ let defaultDatabaseStructures = {
 */
 // ─── Info ────────────────────────────────
 
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+};
 function replacer(key, value) {
   if (typeof value === 'bigint') {
     return value.toString() + 'n';
@@ -9210,7 +9215,6 @@ async function arfine(fn, m, store, asu) {
                     return a;
                   }, []) || [];
                   if (groupAdmins.some(admin => admin.id === targetId)) throw new Error(`@${targetId.split('@')[0]} sudah menjadi admin.`);
-                  if (getPremiumPosition(serial, dbPremium) && getPremiumPosition(targetId, dbPremium)) await sReply(`@${targetId.split('@')[0]} menjadi admin privilege.`);
                   await fn.promoteParticipant(toId, targetId);
                   await sReply(`✅ Sukses menambahkan @${targetId.split('@')[0]} sebagai admin.`); await limitAdd(serial); await counthit(serial);
                   commandFound = true;
@@ -9403,7 +9407,7 @@ async function arfine(fn, m, store, asu) {
                           } else {
                             jid = p
                           }
-                          return `${index + 1}. @${(jid).split('@')[0]}`;
+                          return `${index + 1}. @${(jid)?.split('@')[0]}`;
                         });
                         const listText = (await Promise.all(listPromises)).join('\n');
                         throw new Error(`*Daftar Permintaan Bergabung:*\n${listText}\n\n*Gunakan:*\n- ${dbSettings.rname}accept all\n- ${dbSettings.rname}accept <nomor> (contoh: ${dbSettings.rname}accept 1,3)`);
@@ -9424,7 +9428,7 @@ async function arfine(fn, m, store, asu) {
                           } else {
                             jid = lid
                           }
-                          const numberToMention = jid.split('@')[0];
+                          const numberToMention = jid?.split('@')[0];
                           mentionParts.push(`@${numberToMention}`);
                         }
                         const approvedText = mentionParts.join(', ');

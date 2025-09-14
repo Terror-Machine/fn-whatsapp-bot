@@ -18,7 +18,8 @@ const blockedKeywords = [
   "Migrating session to:",
   "Session already closed",
   "Session already open",
-  "Removing old closed session:"
+  "Removing old closed session:",
+  "Closing session:"
 ];
 
 async function log(message, error = false) {

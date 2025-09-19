@@ -4045,6 +4045,32 @@ async function generateSudokuBoardImage(puzzle, board, errorIndices = []) {
 */
 // ─── Info ────────────────────────────────
 
+async function convertAudio(inputPath, { isNotVoice = true, ffmpegPath = '/usr/bin/ffmpeg', ffprobePath = '/usr/bin/ffprobe' } = {}) {
+  return new Promise((resolve, reject) => {
+    const format = isNotVoice ? 'mp3' : 'ogg';
+    const audioCodec = isNotVoice ? 'libmp3lame' : 'libopus';
+    const audioBitrate = isNotVoice ? '128k' : '48k';
+    const audioChannels = isNotVoice ? 2 : 1;
+
+    const outputPath = path.join(
+      path.dirname(inputPath),
+      `${path.parse(inputPath).name}-converted.${format}`
+    );
+
+    ffmpeg(inputPath)
+      .setFfmpegPath(ffmpegPath)
+      .setFfprobePath(ffprobePath)
+      .noVideo()
+      .format(format)
+      .audioCodec(audioCodec)
+      .audioBitrate(audioBitrate)
+      .audioChannels(audioChannels)
+      .addOption('-avoid_negative_ts', 'make_zero')
+      .on('error', reject)
+      .on('end', () => resolve(outputPath))
+      .save(outputPath);
+  });
+}
 async function getSerial(m, store) {
   if (m.key?.fromMe) return;
   const sender = m.sender;
@@ -4759,37 +4785,40 @@ async function clientBot(fn, store) {
       }
       const fileType = await FileType.fromFile(localPath);
       const mime = fileType?.mime || 'application/octet-stream';
-      const fileSizeInBytes = fs.statSync(localPath).size;
-      const fileSizeInMB = fileSizeInBytes / (1024 * 1024);
+      const fileSizeInMB = fs.statSync(localPath).size / (1024 * 1024);
       const quoted = options.quoted || null;
       const ephemeralExpiration = options?.quoted?.expiration ?? store?.messages?.[jid]?.array?.slice(-1)[0]?.expiration ?? 0;
-      const quotedOptions = {
-        quoted,
-        ephemeralExpiration,
-        ...options
-      };
-      let messageContent = {};
+      const quotedOptions = { quoted, ephemeralExpiration, ...options };
       const fileName = path.basename(localPath);
+      let messageContent = {};
       if (fileSizeInMB > 200) {
         messageContent = {
           document: { stream: fs.createReadStream(localPath) },
           mimetype: mime,
-          fileName: fileName,
-          mentions: mentions,
+          fileName,
+          mentions,
           ...options
         };
+      } else if (mime.startsWith('audio/')) {
+        const convertedPath = await convertAudio(localPath, {
+          isNotVoice: !options?.ptt
+        });
+        const buffer = fs.readFileSync(convertedPath);
+        messageContent = {
+          audio: buffer, // { stream: fs.createReadStream(convertedPath) }
+          mimetype: options?.ptt ? 'audio/ogg; codecs=opus' : 'audio/mpeg',
+          ptt: !!options?.ptt,
+          mentions,
+          ...options
+        };
+      } else if (mime.includes('gif')) {
+        messageContent = { video: { stream: fs.createReadStream(localPath) }, gifPlayback: true, mentions, ...options };
+      } else if (mime.startsWith('image/')) {
+        messageContent = { image: { stream: fs.createReadStream(localPath) }, caption, mentions, ...options };
+      } else if (mime.startsWith('video/')) {
+        messageContent = { video: { stream: fs.createReadStream(localPath) }, caption, mentions, ...options };
       } else {
-        if (mime.includes('gif')) {
-          messageContent = { video: { stream: fs.createReadStream(localPath) }, gifPlayback: true, mentions: mentions, ...options };
-        } else if (mime.startsWith('image/')) {
-          messageContent = { image: { stream: fs.createReadStream(localPath) }, caption: caption, mentions: mentions, ...options };
-        } else if (mime.startsWith('video/')) {
-          messageContent = { video: { stream: fs.createReadStream(localPath) }, caption: caption, mentions: mentions, ...options };
-        } else if (mime.startsWith('audio/')) {
-          messageContent = { audio: { stream: fs.createReadStream(localPath) }, mimetype: 'audio/mpeg', mentions: mentions, ptt: true, ...options };
-        } else {
-          messageContent = { document: { stream: fs.createReadStream(localPath) }, mimetype: mime, fileName: fileName, mentions: mentions, ...options };
-        }
+        messageContent = { document: { stream: fs.createReadStream(localPath) }, mimetype: mime, fileName, mentions, ...options };
       }
       return await fn.sendMessage(jid, messageContent, quotedOptions);
     } catch (error) {

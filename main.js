@@ -121,7 +121,7 @@ const { generateQuote, generateMeme, generateFakeStory, generateFakeTweet, gener
 const { QuoteGenerator, bratGenerator, bratVidGenerator, generateAnimatedBratVid, randomChoice } = require('qc-generator-whatsapp');
 const { default: HyHy, generateWAMessage, useMultiFileAuthState, jidNormalizedUser, extractMessageContent, generateWAMessageFromContent,
   downloadContentFromMessage, jidDecode, jidEncode, getDevice, areJidsSameUser, Browsers, makeCacheableSignalKeyStore, WAMessageStubType,
-  getBinaryNodeChildString, getBinaryNodeChildren, getBinaryNodeChild, isJidBroadcast, fetchLatestBaileysVersion, proto, isLidUser
+  getBinaryNodeChildString, getBinaryNodeChildren, getBinaryNodeChild, isJidBroadcast, fetchLatestBaileysVersion, proto, isLidUser, generateProfilePicture
 } = require("baileys");
 
 registerFont('./src/fonts/Noto-Bold.ttf', { family: 'Noto', weight: 'bold' });
@@ -9375,18 +9375,39 @@ async function arfine(fn, m, store, asu) {
                 } catch (error) {
                   await sReply(error.message); await counthit(serial);
                 }
-              } else if (!commandFound && await getComs(txt, 'setgroupicon')) {
+              } else if (!commandFound && await getPrefix(txt, 'setgroupicon')) {
                 try {
-                  if (!m.isGroup || !isBotGroupAdmins) throw new Error(`Perintah ini hanya bisa digunakan di grup dan bot harus menjadi admin grup.`);
-                  const targetMsg = quotedMsg ? m.quoted || m : m.message;
-                  const mimeType = targetMsg?.imageMessage?.mimetype;
-                  if (!mimeType || !mimeType.startsWith('image/')) throw new Error(`Balas pesan gambar atau kirim gambar dengan perintah ini.`);
-                  const resBuffer = await fn.getMediaBuffer(targetMsg);
-                  if (!resBuffer) throw new Error(`Gagal mendapatkan gambar dari pesan yang dibalas.`);
-                  const filename = await saveFile(resBuffer, "tmp_group_icon");
-                  await fn.updateProfilePicture(toId, { url: filename });
-                  await deleteFile(filename); await limitAdd(serial); await counthit(serial); await reactDone();
-                  commandFound = true;
+                  if (!arg) {
+                    if (!m.isGroup || !isBotGroupAdmins) throw new Error(`Perintah ini hanya bisa digunakan di grup dan bot harus menjadi admin grup.`);
+                    const targetMsg = quotedMsg ? m.quoted || m : m.message;
+                    const mimeType = targetMsg?.imageMessage?.mimetype;
+                    if (!mimeType || !mimeType.startsWith('image/')) throw new Error(`Balas pesan gambar atau kirim gambar dengan perintah ini.`);
+                    const resBuffer = await fn.getMediaBuffer(targetMsg);
+                    if (!resBuffer) throw new Error(`Gagal mendapatkan gambar dari pesan yang dibalas.`);
+                    const filename = await saveFile(resBuffer, "tmp_group_icon");
+                    await fn.updateProfilePicture(toId, { url: filename });
+                    await deleteFile(filename); await limitAdd(serial); await counthit(serial); await reactDone();
+                    commandFound = true;
+                  } else if (arg && args[0] === "full") {
+                    if (!m.isGroup || !isBotGroupAdmins) throw new Error(`Perintah ini hanya bisa digunakan di grup dan bot harus menjadi admin grup.`);
+                    const targetMsg = quotedMsg ? m.quoted || m : m.message;
+                    const mimeType = targetMsg?.imageMessage?.mimetype;
+                    if (!mimeType || !mimeType.startsWith('image/')) throw new Error(`Balas pesan gambar atau kirim gambar dengan perintah ini.`);
+                    const resBuffer = await fn.getMediaBuffer(targetMsg);
+                    if (!resBuffer) throw new Error(`Gagal mendapatkan gambar dari pesan yang dibalas.`);
+                    let { img } = await generateProfilePicture(resBuffer);
+                    await fn.query({
+                      tag: 'iq',
+                      attrs: {
+                        target: m.chat,
+                        to: '@s.whatsapp.net',
+                        type: 'set',
+                        xmlns: 'w:profile:picture'
+                      },
+                      content: [{ tag: 'picture', attrs: { type: 'image' }, content: img }]
+                    });
+                    await limitAdd(serial); await counthit(serial); await reactDone();
+                  }
                 } catch (error) {
                   await sReply(error.message); await counthit(serial);
                 }

@@ -12832,7 +12832,7 @@ async function arfine(fn, m, store, asu) {
                 const audio = await fn.getMediaBuffer(quotedMsg);
                 if (!audio) throw new Error(`Gagal mendapatkan media.`);
                 await fs.writeFile(global.filename, audio);
-                await exec(`ffmpeg -i ${global.filename} -filter_complex "afftfilt=real=hypot(re,im)*sin(0):imag=hypot(re,im)*cos(0):win_size=512:overlap=0.75" ${global.sendFile}`);
+                await exec(`ffmpeg -i ${global.filename} -filter_complex "afftfilt=real='hypot(re,im)*sin(0)':imag='hypot(re,im)*cos(0)':win_size=512:overlap=0.75" ${global.sendFile}`);
                 await fn.sendFilePath(toId, global.filename, global.sendFile, { quoted: m }); await limitAdd(serial); await counthit(serial);
                 await deleteFile(global.filename); await deleteFile(global.sendFile);
                 commandFound = true;

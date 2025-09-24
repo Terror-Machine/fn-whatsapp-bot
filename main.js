@@ -9561,7 +9561,7 @@ async function arfine(fn, m, store, asu) {
                   if (m.isGroup && quotedMsg) {
                     await fn.sendMessage(toId, 
                       { 
-                        forward: proto.WebMessageInfo.fromObject({
+                        forward: proto.WebMessageInfo.create({
                           key: m.quoted.key,
                           message: m.quoted,
                           ...(m.isGroup ? { participant: m.quoted.sender } : {})
